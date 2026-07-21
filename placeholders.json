@@ -1,0 +1,24 @@
+{
+  "business": {
+    "name_primary": "אור בדק בית",
+    "name_en": "{{TODO_BUSINESS_NAME_EN}}",
+    "industry_human": "בדק בית",
+    "schema_business_type": "LocalBusiness",
+    "price_range": "$$",
+    "founded_year": "{{TODO_FOUNDED_YEAR}}",
+    "owner_or_founder_name": "אור דקר",
+    "years_of_experience": 10
+  },
+  "contact": {
+    "primary_phone_local": "052-319-9403",
+    "primary_phone_dial": "0523199403",
+    "primary_phone_e164": "+972523199403",
+    "whatsapp_e164_no_plus": "972523199403",
+    "primary_email": "{{TODO_PRIMARY_EMAIL}}",
+    "address": "{{TODO_NO_PUBLIC_ADDRESS}}"
+  },
+  "languages": ["he"],
+  "areas_served": { "region": "ישראל", "cities": ["כל הארץ"] },
+  "hours": "07:00–22:00",
+  "services": ["בדק בית לדירה חדשה מקבלן", "בדק בית לפני רכישת דירה יד שנייה", "בדיקה הנדסית עם מכשור מקצועי", "דוח ליקויים והערכת עלויות תיקון", "חוות דעת מומחה לבית משפט", "ניהול פרויקטים, כתבי כמויות וליווי שיפוצים וגמרים"]
+}
