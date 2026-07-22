@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700&display=swap');
+
 :root { --ink:#163a5f; --muted:#5f7185; --paper:#f4f6f8; --line:#d8e2ec; --gold:#3e8ed0; }
 * { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; background:var(--paper); color:var(--ink); font-family:Heebo,Arial,sans-serif; }
 .site-header { height:76px; padding:7px max(5vw,24px); display:flex; align-items:center; justify-content:space-between; background:#ffffffed; backdrop-filter:blur(12px); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20; }
