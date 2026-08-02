@@ -85,3 +85,17 @@
 .footer-bottom{display:flex;justify-content:space-between;gap:24px;max-width:1220px;margin:auto;padding-top:22px;border-top:1px solid #dcecf833;color:#a9c6dc;font-size:14px}
 @media(max-width:780px){.contact-actions{max-width:300px;margin:28px auto 0}.site-footer{padding:44px 24px 22px}.footer-main{grid-template-columns:1fr;gap:34px;margin-bottom:34px}.footer-links{grid-template-columns:1fr 1fr;gap:30px}.footer-links>div:last-child{grid-column:1/-1}.footer-bottom{display:grid;gap:8px}.post-cover{height:210px}}
 @media(max-width:460px){.footer-links{grid-template-columns:1fr}.footer-links>div:last-child{grid-column:auto}}
+
+/* Tighter page rhythm */
+.hero{min-height:560px;padding-top:62px;padding-bottom:62px}
+.hero+.checks{padding-top:68px}
+.blog-list{padding-top:64px;padding-bottom:72px}
+.article-hero{padding-top:58px;padding-bottom:58px}
+.article{padding-top:48px;padding-bottom:58px}
+.article>p:first-child{margin-top:0}
+.article h2{margin-top:40px}
+.faq-page{padding-top:72px;padding-bottom:78px}
+.faq-page h1{font:700 clamp(38px,5vw,58px)/1.12 Rubik;margin:0;letter-spacing:-.035em}
+.faq-intro{max-width:720px;margin:18px 0 28px;color:var(--muted);font-size:18px;line-height:1.7}
+@media(max-width:780px){.hero{min-height:0;padding-top:0;padding-bottom:48px}.hero+.checks{padding-top:52px}.blog-hero{padding-top:56px;padding-bottom:48px}.blog-list{padding-top:48px;padding-bottom:56px}.article-hero{padding-top:46px;padding-bottom:46px}.article{padding-top:38px;padding-bottom:48px}}
+@media(max-width:780px){.faq-page{padding-top:52px;padding-bottom:58px}.faq-intro{font-size:17px;margin-bottom:20px}}
