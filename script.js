@@ -25,8 +25,6 @@ if(propertyRotator){
     stopRotation();
     if(!reduceMotion)rotationTimer=window.setInterval(()=>showProperty(activeIndex+1),3800);
   };
-  propertyRotator.addEventListener('pointerenter',stopRotation);
-  propertyRotator.addEventListener('pointerleave',startRotation);
   document.addEventListener('visibilitychange',()=>document.hidden?stopRotation():startRotation());
   startRotation();
 }
