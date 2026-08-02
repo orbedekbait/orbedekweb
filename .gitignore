@@ -1,5 +1,6 @@
 .DS_Store
 *.pdf
+!public/reports/sample-home-inspection-report.pdf
 node_modules/
 dist/
 .env
