@@ -54,7 +54,7 @@ if(propertyRotator){
   const stopRotation=()=>window.clearInterval(rotationTimer);
   const startRotation=()=>{
     stopRotation();
-    if(!reduceMotion)rotationTimer=window.setInterval(()=>showProperty(activeIndex+1),3800);
+    if(!reduceMotion)rotationTimer=window.setInterval(()=>showProperty(activeIndex+1),10000);
   };
   document.addEventListener('visibilitychange',()=>document.hidden?stopRotation():startRotation());
   startRotation();
