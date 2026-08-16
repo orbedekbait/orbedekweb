@@ -1,4 +1,4 @@
-if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin','<header class="site-header"><a class="logo" href="index.html" aria-label="אור בדק בית - דף הבית"><img src="public/images/or-bedek-logo.png" alt="לוגו אור בדק בית"></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="פתיחת תפריט"><span></span><span></span></button></header><aside class="site-menu" id="site-menu" aria-hidden="true"><div class="menu-top"><img src="public/images/or-bedek-logo.png" alt=""><button class="menu-close" type="button" aria-label="סגירת תפריט">×</button></div><nav aria-label="ניווט ראשי"><a href="index.html">עמוד הבית</a><a href="about.html">קצת עליי</a><a href="services.html">שירותים</a><a href="faq.html">שאלות נפוצות</a><a href="blog.html">בלוג</a><a href="contact.html">צור קשר</a></nav></aside><div class="menu-backdrop" aria-hidden="true"></div>');
+if(!document.querySelector('.site-header'))document.body.insertAdjacentHTML('afterbegin','<header class="site-header"><a class="logo" href="index.html" aria-label="אור בדק בית, דף הבית"><img src="public/images/or-bedek-logo.png" alt="לוגו אור בדק בית"></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="פתיחת תפריט"><span></span><span></span></button></header><aside class="site-menu" id="site-menu" aria-hidden="true"><div class="menu-top"><img src="public/images/or-bedek-logo.png" alt=""><button class="menu-close" type="button" aria-label="סגירת תפריט">×</button></div><nav aria-label="ניווט ראשי"><a href="index.html">עמוד הבית</a><a href="about.html">קצת עליי</a><a href="services.html">שירותים</a><a href="faq.html">שאלות נפוצות</a><a href="blog.html">בלוג</a><a href="contact.html">צור קשר</a></nav></aside><div class="menu-backdrop" aria-hidden="true"></div>');
 const menu=document.querySelector('.site-menu'),backdrop=document.querySelector('.menu-backdrop'),toggle=document.querySelector('.menu-toggle'),close=document.querySelector('.menu-close');
 const menuNav=menu.querySelector('nav');
 if(!menuNav.querySelector('a[href="sample-report.html"]')){
@@ -23,9 +23,9 @@ document.querySelectorAll('.cards article').forEach(card=>{
     heading.textContent='בדק בית לדירה חדשה מקבלן';
     copy.textContent='בדיקה לאחר הרכישה, לקראת המסירה או אחריה, לאיתור ולתיעוד ליקויים במסגרת תקופות הבדק והאחריות לפי חוק המכר (דירות).';
   }
-  if(heading.textContent==='בדק בית לפני קניית יד שנייה'){
-    heading.textContent='בדק בית לפני רכישת דירה';
-    copy.textContent='בדיקה שמבהירה את מצב הנכס ועלויות התיקון, מספקת בסיס להתמקחות על המחיר ולעיתים מאפשרת לבקש תיקון ליקויים לפני הרכישה.';
+  if(heading.textContent==='בדק בית לפני רכישת דירה יד שנייה'){
+    heading.textContent='בדק בית לפני רכישת דירה יד שנייה';
+    copy.textContent='בדיקה שמבהירה את מצב הנכס ואת עלויות התיקון, מספקת בסיס למשא ומתן על המחיר ולעיתים מאפשרת לבקש את תיקון הליקויים לפני הרכישה.';
   }
 });
 const desktopMenu=window.matchMedia('(min-width: 781px)');
