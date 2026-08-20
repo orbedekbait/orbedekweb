@@ -465,6 +465,7 @@
 .start-now{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:65px;align-items:center;background:#fff}
 .start-now-copy h2{font-size:clamp(36px,4.5vw,58px);line-height:1.12}
 .start-now-copy>p:not(.eyebrow){max-width:600px;margin:20px 0 27px;color:var(--muted);font-size:18px;line-height:1.75}
+.start-now-cta{display:flex;width:max-content;margin-inline:auto}
 .start-now-card{padding:31px 32px;border:1px solid #d2e5f3;border-radius:18px;background:linear-gradient(145deg,#f8fcff,#eaf5fc);box-shadow:0 18px 42px #173c5c18}
 .start-now-card ul{display:grid;gap:0;margin:0;padding:0;list-style:none}
 .start-now-card li{position:relative;display:grid;gap:6px;padding:20px 44px 20px 0;border-bottom:1px solid #cddfed}
