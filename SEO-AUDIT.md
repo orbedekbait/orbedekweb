@@ -8,13 +8,13 @@ The repository now passes the local technical SEO audit for all 17 indexable HTM
 
 Google does not guarantee indexing merely because a page is in a sitemap. Deployment and Google Search Console checks in the final section are still required.
 
-## Production URL assumption
+## Production URL
 
-The repository contains no `CNAME`, hosting configuration, or declared custom production domain. The GitHub remote is `orbedekbait/orbedekweb`, so this implementation uses:
+The production domain was confirmed from the site's Google Search Console property:
 
-`https://orbedekbait.github.io/orbedekweb/`
+`https://orbedek.co.il/`
 
-This base appears in canonical links, Open Graph URLs, structured data, `sitemap.xml`, `robots.txt`, `llms.txt`, and the 404 page's project-path base. If the production site uses a custom domain, replace this base everywhere before deployment and rerun:
+This base appears consistently in canonical links, Open Graph URLs, structured data, `sitemap.xml`, `robots.txt`, `llms.txt`, and the 404 page. If the production domain changes, replace this base everywhere and rerun:
 
 ```bash
 python3 scripts/seo_audit.py

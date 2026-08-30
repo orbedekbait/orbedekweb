@@ -14,7 +14,7 @@ from urllib.parse import unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parent.parent
-BASE_URL = "https://orbedekbait.github.io/orbedekweb/"
+BASE_URL = "https://orbedek.co.il/"
 NOT_FOUND = "404.html"
 
 
@@ -90,7 +90,7 @@ def local_target(raw_url: str) -> tuple[str, str] | None:
     if parsed.scheme and not raw_url.startswith(BASE_URL):
         return None
     if raw_url.startswith(BASE_URL):
-        path = unquote(parsed.path.removeprefix("/orbedekweb/"))
+        path = unquote(parsed.path.lstrip("/"))
     else:
         path = unquote(parsed.path)
     if path in {"", ".", "./"}:

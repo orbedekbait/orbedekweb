@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://orbedekbait.github.io/orbedekweb/sitemap.xml
+Sitemap: https://orbedek.co.il/sitemap.xml

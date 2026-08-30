@@ -2,7 +2,7 @@
 
 > אתר מקצועי בעברית על בדק בית לדירות חדשות ולדירות יד שנייה בישראל, איתור ליקויי בנייה, רטיבות ואיטום, דוחות והערכת עלויות.
 
-Canonical site: https://orbedekbait.github.io/orbedekweb/
+Canonical site: https://orbedek.co.il/
 Language: Hebrew (he-IL)
 Service area: Israel
 Business: אור בדק בית
@@ -12,26 +12,26 @@ Address: כצנלסון 148, גבעתיים, ישראל
 
 ## Primary pages
 
-- [דף הבית](https://orbedekbait.github.io/orbedekweb/): תיאור השירות, תהליך הבדיקה והיתרונות ללקוח.
-- [אודות אור דקר](https://orbedekbait.github.io/orbedekweb/about.html): ניסיון, גישה מקצועית ותחומי מומחיות.
-- [שירותים](https://orbedekbait.github.io/orbedekweb/services.html): בדיקות דירה, דוחות, חוות דעת וליווי פרויקטים.
-- [שאלות נפוצות](https://orbedekbait.github.io/orbedekweb/faq.html): תשובות על תזמון, היקף, מחיר, דוחות ואזורי שירות.
-- [בלוג בדק בית](https://orbedekbait.github.io/orbedekweb/blog.html): כל המדריכים המקצועיים באתר.
-- [דוח לדוגמה](https://orbedekbait.github.io/orbedekweb/sample-report.html): מבנה הדוח וקישור לקובץ PDF לדוגמה.
-- [יצירת קשר](https://orbedekbait.github.io/orbedekweb/contact.html): טלפון, כתובת וטופס תיאום.
+- [דף הבית](https://orbedek.co.il/): תיאור השירות, תהליך הבדיקה והיתרונות ללקוח.
+- [אודות אור דקר](https://orbedek.co.il/about.html): ניסיון, גישה מקצועית ותחומי מומחיות.
+- [שירותים](https://orbedek.co.il/services.html): בדיקות דירה, דוחות, חוות דעת וליווי פרויקטים.
+- [שאלות נפוצות](https://orbedek.co.il/faq.html): תשובות על תזמון, היקף, מחיר, דוחות ואזורי שירות.
+- [בלוג בדק בית](https://orbedek.co.il/blog.html): כל המדריכים המקצועיים באתר.
+- [דוח לדוגמה](https://orbedek.co.il/sample-report.html): מבנה הדוח וקישור לקובץ PDF לדוגמה.
+- [יצירת קשר](https://orbedek.co.il/contact.html): טלפון, כתובת וטופס תיאום.
 
 ## Professional guides
 
-- [בדק בית לפני קניית דירה יד שנייה](https://orbedekbait.github.io/orbedekweb/badek-home-before-buying.html)
-- [בדק בית לדירה חדשה מקבלן](https://orbedekbait.github.io/orbedekweb/new-apartment-inspection.html)
-- [ליקויי בנייה בדירה חדשה](https://orbedekbait.github.io/orbedekweb/construction-defects-new-apartment.html)
-- [רשימת בדיקה לפני מסירת דירה](https://orbedekbait.github.io/orbedekweb/pre-delivery-checklist.html)
-- [בדיקת רטיבות בדירה](https://orbedekbait.github.io/orbedekweb/moisture-inspection.html)
-- [בדק בית לדירת יד שנייה](https://orbedekbait.github.io/orbedekweb/second-hand-home-inspection.html)
-- [מחיר בדק בית](https://orbedekbait.github.io/orbedekweb/home-inspection-price.html)
-- [תקני בנייה בדירה חדשה](https://orbedekbait.github.io/orbedekweb/construction-standards-new-apartment.html)
-- [בדיקת איטום גג ומרפסת](https://orbedekbait.github.io/orbedekweb/roof-balcony-waterproofing.html)
-- [איך לקרוא דוח בדק בית](https://orbedekbait.github.io/orbedekweb/home-inspection-report.html)
+- [בדק בית לפני קניית דירה יד שנייה](https://orbedek.co.il/badek-home-before-buying.html)
+- [בדק בית לדירה חדשה מקבלן](https://orbedek.co.il/new-apartment-inspection.html)
+- [ליקויי בנייה בדירה חדשה](https://orbedek.co.il/construction-defects-new-apartment.html)
+- [רשימת בדיקה לפני מסירת דירה](https://orbedek.co.il/pre-delivery-checklist.html)
+- [בדיקת רטיבות בדירה](https://orbedek.co.il/moisture-inspection.html)
+- [בדק בית לדירת יד שנייה](https://orbedek.co.il/second-hand-home-inspection.html)
+- [מחיר בדק בית](https://orbedek.co.il/home-inspection-price.html)
+- [תקני בנייה בדירה חדשה](https://orbedek.co.il/construction-standards-new-apartment.html)
+- [בדיקת איטום גג ומרפסת](https://orbedek.co.il/roof-balcony-waterproofing.html)
+- [איך לקרוא דוח בדק בית](https://orbedek.co.il/home-inspection-report.html)
 
 ## Content notes
 
