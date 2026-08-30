@@ -63,6 +63,79 @@
   .why-grid{grid-template-columns:1fr 1fr;margin-top:34px}
 }
 
+/* Dedicated not-found page */
+.error-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(206, 166, 88, .18), transparent 34rem),
+    var(--paper, #f7f4ee);
+}
+
+.error-main {
+  display: grid;
+  place-items: center;
+  padding: clamp(3rem, 8vw, 8rem) 1.25rem;
+}
+
+.error-card {
+  width: min(100%, 48rem);
+  padding: clamp(2rem, 6vw, 4.5rem);
+  border: 1px solid rgba(20, 45, 38, .14);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 1.5rem 4rem rgba(20, 45, 38, .12);
+  text-align: center;
+}
+
+.error-code {
+  margin: 0;
+  color: var(--ink, #173b32);
+  font-size: clamp(5rem, 18vw, 10rem);
+  font-weight: 800;
+  line-height: .82;
+  letter-spacing: -.08em;
+  opacity: .12;
+}
+
+.error-card h1 {
+  max-width: 14ch;
+  margin-inline: auto;
+}
+
+.error-card > p:not(.error-code):not(.eyebrow) {
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  margin-top: 2rem;
+}
+
+.error-actions .button.secondary {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+
+.error-actions .text-link {
+  padding: .75rem;
+  color: var(--ink);
+  font-weight: 700;
+  text-underline-offset: .3em;
+}
+
+.error-footer {
+  padding-block: 1.25rem;
+  text-align: center;
+}
+
 /* Homepage sections stay fully laid out while scrolling; avoids large placeholder gaps. */
 .home-page main>section{content-visibility:visible!important;contain-intrinsic-size:none!important}
 

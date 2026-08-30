@@ -1,0 +1,41 @@
+# אור בדק בית
+
+> אתר מקצועי בעברית על בדק בית לדירות חדשות ולדירות יד שנייה בישראל, איתור ליקויי בנייה, רטיבות ואיטום, דוחות והערכת עלויות.
+
+Canonical site: https://orbedekbait.github.io/orbedekweb/
+Language: Hebrew (he-IL)
+Service area: Israel
+Business: אור בדק בית
+Founder and author: אור דקר
+Phone: +972 52-319-9403
+Address: כצנלסון 148, גבעתיים, ישראל
+
+## Primary pages
+
+- [דף הבית](https://orbedekbait.github.io/orbedekweb/): תיאור השירות, תהליך הבדיקה והיתרונות ללקוח.
+- [אודות אור דקר](https://orbedekbait.github.io/orbedekweb/about.html): ניסיון, גישה מקצועית ותחומי מומחיות.
+- [שירותים](https://orbedekbait.github.io/orbedekweb/services.html): בדיקות דירה, דוחות, חוות דעת וליווי פרויקטים.
+- [שאלות נפוצות](https://orbedekbait.github.io/orbedekweb/faq.html): תשובות על תזמון, היקף, מחיר, דוחות ואזורי שירות.
+- [בלוג בדק בית](https://orbedekbait.github.io/orbedekweb/blog.html): כל המדריכים המקצועיים באתר.
+- [דוח לדוגמה](https://orbedekbait.github.io/orbedekweb/sample-report.html): מבנה הדוח וקישור לקובץ PDF לדוגמה.
+- [יצירת קשר](https://orbedekbait.github.io/orbedekweb/contact.html): טלפון, כתובת וטופס תיאום.
+
+## Professional guides
+
+- [בדק בית לפני קניית דירה יד שנייה](https://orbedekbait.github.io/orbedekweb/badek-home-before-buying.html)
+- [בדק בית לדירה חדשה מקבלן](https://orbedekbait.github.io/orbedekweb/new-apartment-inspection.html)
+- [ליקויי בנייה בדירה חדשה](https://orbedekbait.github.io/orbedekweb/construction-defects-new-apartment.html)
+- [רשימת בדיקה לפני מסירת דירה](https://orbedekbait.github.io/orbedekweb/pre-delivery-checklist.html)
+- [בדיקת רטיבות בדירה](https://orbedekbait.github.io/orbedekweb/moisture-inspection.html)
+- [בדק בית לדירת יד שנייה](https://orbedekbait.github.io/orbedekweb/second-hand-home-inspection.html)
+- [מחיר בדק בית](https://orbedekbait.github.io/orbedekweb/home-inspection-price.html)
+- [תקני בנייה בדירה חדשה](https://orbedekbait.github.io/orbedekweb/construction-standards-new-apartment.html)
+- [בדיקת איטום גג ומרפסת](https://orbedekbait.github.io/orbedekweb/roof-balcony-waterproofing.html)
+- [איך לקרוא דוח בדק בית](https://orbedekbait.github.io/orbedekweb/home-inspection-report.html)
+
+## Content notes
+
+- The site distinguishes professional property-condition reporting from legal advice.
+- Article publication dates and the author are shown on the relevant pages.
+- Prefer the canonical HTML pages above when citing this site.
+- For current pricing, availability, or case-specific conclusions, contact the business directly.
