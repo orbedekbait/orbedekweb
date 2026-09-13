@@ -139,204 +139,25 @@ document.querySelectorAll('[data-carousel]').forEach(carousel=>{
   updateControls();
 });
 
-const googleReviewsSection=document.querySelector('[data-google-reviews]');
-if(googleReviewsSection){
-  const safeExternalUrl=value=>{
-    if(!value)return '';
-    try{
-      const url=new URL(value,window.location.origin);
-      return url.protocol==='https:'?url.href:'';
-    }catch{return ''}
+const elfsightGoogleReviews=document.querySelector('.elfsight-app-317ec25e-880d-4157-bd2a-60622119a50e');
+if(elfsightGoogleReviews){
+  let attempts=0;
+  const customizeElfsightHeader=()=>{
+    attempts+=1;
+    const host=elfsightGoogleReviews.querySelector('.es-embed-root');
+    const shadow=host?.shadowRoot;
+    if(!shadow){
+      if(attempts>=150)window.clearInterval(elfsightHeaderTimer);
+      return;
+    }
+    if(!shadow.getElementById('or-bedek-elfsight-overrides')){
+      const style=document.createElement('style');
+      style.id='or-bedek-elfsight-overrides';
+      style.textContent='.es-widget-title-container{display:none!important}.es-header-heading-text,.es-header-rating-reviews-count{display:none!important}.es-header-rating-container{justify-content:center!important}';
+      shadow.append(style);
+    }
+    window.clearInterval(elfsightHeaderTimer);
   };
-  const createStars=rating=>{
-    const stars=document.createElement('span');
-    const normalized=Math.max(0,Math.min(5,Number(rating)||0));
-    stars.className='google-stars';
-    stars.textContent='★★★★★';
-    stars.style.setProperty('--rating-percent',`${normalized/5*100}%`);
-    stars.setAttribute('role','img');
-    stars.setAttribute('aria-label',`דירוג ${normalized.toFixed(1)} מתוך 5`);
-    return stars;
-  };
-  const createReviewCard=(review,index,allReviewsUrl)=>{
-    const card=document.createElement('article');
-    card.className='google-review-card';
-
-    const authorUrl=safeExternalUrl(review.authorUri);
-    const author=document.createElement(authorUrl?'a':'div');
-    author.className='review-author';
-    if(authorUrl){
-      author.href=authorUrl;
-      author.target='_blank';
-      author.rel='noopener';
-    }
-
-    const avatar=document.createElement('span');
-    avatar.className='review-avatar';
-    const photoUrl=safeExternalUrl(review.authorPhotoUri);
-    if(photoUrl){
-      const image=document.createElement('img');
-      image.src=photoUrl;
-      image.alt='';
-      image.loading='lazy';
-      image.referrerPolicy='no-referrer';
-      image.addEventListener('error',()=>{
-        image.remove();
-        avatar.textContent=(review.authorName||'G').trim().charAt(0).toUpperCase();
-      });
-      avatar.append(image);
-    }else{
-      avatar.textContent=(review.authorName||'G').trim().charAt(0).toUpperCase();
-    }
-
-    const authorCopy=document.createElement('span');
-    authorCopy.className='review-author-copy';
-    const authorName=document.createElement('span');
-    authorName.className='review-author-name';
-    authorName.textContent=review.authorName||'משתמש Google';
-    const date=document.createElement('span');
-    date.className='review-date';
-    date.textContent=review.relativeTime||'';
-    authorCopy.append(authorName,date);
-    author.append(avatar,authorCopy);
-
-    const ratingRow=document.createElement('div');
-    ratingRow.className='review-rating';
-    ratingRow.append(createStars(review.rating));
-    if(review.isTranslated){
-      const translation=document.createElement('span');
-      translation.className='review-translation';
-      translation.textContent='תורגם על ידי Google';
-      ratingRow.append(translation);
-    }
-    card.append(author,ratingRow);
-
-    const reviewText=String(review.text||'').trim();
-    if(reviewText){
-      const text=document.createElement('p');
-      text.className='review-text';
-      text.id=`google-review-text-${index+1}`;
-      text.textContent=reviewText;
-      card.append(text);
-      if(reviewText.length>210){
-        const expand=document.createElement('button');
-        expand.className='review-expand';
-        expand.type='button';
-        expand.textContent='לקריאה נוספת';
-        expand.setAttribute('aria-expanded','false');
-        expand.setAttribute('aria-controls',text.id);
-        expand.addEventListener('click',()=>{
-          const expanded=card.classList.toggle('is-expanded');
-          expand.setAttribute('aria-expanded',String(expanded));
-          expand.textContent=expanded?'הצגת פחות':'לקריאה נוספת';
-        });
-        card.append(expand);
-      }
-    }
-
-    const sourceUrl=safeExternalUrl(review.reviewUri)||allReviewsUrl;
-    if(sourceUrl){
-      const source=document.createElement('a');
-      source.className='review-source';
-      source.href=sourceUrl;
-      source.target='_blank';
-      source.rel='noopener';
-      source.textContent='צפייה בביקורת ב-Google Maps';
-      card.append(source);
-    }
-    return card;
-  };
-  const initializeReviewsCarousel=reviews=>{
-    const track=googleReviewsSection.querySelector('[data-reviews-track]');
-    const previous=googleReviewsSection.querySelector('[data-reviews-prev]');
-    const next=googleReviewsSection.querySelector('[data-reviews-next]');
-    const controls=googleReviewsSection.querySelector('[data-reviews-controls]');
-    const dotsContainer=googleReviewsSection.querySelector('[data-reviews-dots]');
-    const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let activeIndex=0;
-    let scrollTimer;
-    const dots=reviews.map((review,index)=>{
-      const dot=document.createElement('button');
-      dot.className='reviews-dot';
-      dot.type='button';
-      dot.setAttribute('aria-label',`מעבר לביקורת ${index+1}`);
-      dotsContainer.append(dot);
-      return dot;
-    });
-    const updateDots=()=>dots.forEach((dot,index)=>dot.setAttribute('aria-current',String(index===activeIndex)));
-    const goTo=index=>{
-      activeIndex=(index+reviews.length)%reviews.length;
-      track.children[activeIndex]?.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'nearest',inline:'center'});
-      updateDots();
-    };
-    dots.forEach((dot,index)=>dot.addEventListener('click',()=>goTo(index)));
-    previous.addEventListener('click',()=>goTo(activeIndex-1));
-    next.addEventListener('click',()=>goTo(activeIndex+1));
-    track.addEventListener('keydown',event=>{
-      if(event.key==='ArrowLeft'){event.preventDefault();goTo(activeIndex+1)}
-      if(event.key==='ArrowRight'){event.preventDefault();goTo(activeIndex-1)}
-    });
-    track.addEventListener('scroll',()=>{
-      window.clearTimeout(scrollTimer);
-      scrollTimer=window.setTimeout(()=>{
-        const trackCenter=track.getBoundingClientRect().left+track.clientWidth/2;
-        activeIndex=[...track.children].reduce((closest,item,index)=>{
-          const bounds=item.getBoundingClientRect();
-          const distance=Math.abs(bounds.left+bounds.width/2-trackCenter);
-          return distance<closest.distance?{index,distance}:closest;
-        },{index:0,distance:Infinity}).index;
-        updateDots();
-      },80);
-    },{passive:true});
-    controls.hidden=reviews.length<2;
-    updateDots();
-  };
-  const loadGoogleReviews=async()=>{
-    try{
-      const response=await fetch(googleReviewsSection.dataset.endpoint,{headers:{Accept:'application/json'}});
-      if(!response.ok)throw new Error(`Google reviews request failed (${response.status})`);
-      const data=await response.json();
-      const rating=Number(data.rating);
-      const reviewCount=Number(data.reviewCount);
-      const reviews=Array.isArray(data.reviews)?data.reviews:[];
-      if(!Number.isFinite(rating)||!Number.isFinite(reviewCount))throw new Error('Google reviews response is incomplete');
-
-      googleReviewsSection.querySelector('[data-reviews-rating]').textContent=rating.toFixed(1);
-      const summaryStars=googleReviewsSection.querySelector('[data-reviews-stars]');
-      summaryStars.style.setProperty('--rating-percent',`${Math.max(0,Math.min(100,rating/5*100))}%`);
-      summaryStars.removeAttribute('aria-hidden');
-      summaryStars.setAttribute('role','img');
-      summaryStars.setAttribute('aria-label',`דירוג ${rating.toFixed(1)} מתוך 5`);
-      googleReviewsSection.querySelector('[data-reviews-count]').textContent=`(${new Intl.NumberFormat('he-IL').format(reviewCount)} ביקורות)`;
-
-      const allReviewsUrl=safeExternalUrl(data.reviewsUri)||safeExternalUrl(data.placeUri);
-      const writeReviewUrl=safeExternalUrl(data.writeReviewUri);
-      const allReviewsLink=googleReviewsSection.querySelector('[data-reviews-all]');
-      const writeReviewLink=googleReviewsSection.querySelector('[data-reviews-write]');
-      allReviewsLink.hidden=!allReviewsUrl;
-      writeReviewLink.hidden=!writeReviewUrl;
-      if(allReviewsUrl)allReviewsLink.href=allReviewsUrl;
-      if(writeReviewUrl)writeReviewLink.href=writeReviewUrl;
-
-      const track=googleReviewsSection.querySelector('[data-reviews-track]');
-      reviews.forEach((review,index)=>track.append(createReviewCard(review,index,allReviewsUrl)));
-      googleReviewsSection.querySelector('[data-reviews-carousel]').hidden=!reviews.length;
-      if(reviews.length)initializeReviewsCarousel(reviews);
-
-      const attributions=Array.isArray(data.attributions)?data.attributions:[];
-      const attributionContainer=googleReviewsSection.querySelector('[data-reviews-attributions]');
-      attributions.forEach(attribution=>{
-        const providerUrl=safeExternalUrl(attribution.providerUri);
-        const provider=document.createElement(providerUrl?'a':'span');
-        provider.textContent=attribution.provider||'';
-        if(providerUrl){provider.href=providerUrl;provider.target='_blank';provider.rel='noopener'}
-        attributionContainer.append(provider);
-      });
-      attributionContainer.hidden=!attributionContainer.children.length;
-      googleReviewsSection.hidden=false;
-    }catch(error){
-      console.warn('Google reviews are hidden:',error.message);
-    }
-  };
-  loadGoogleReviews();
+  const elfsightHeaderTimer=window.setInterval(customizeElfsightHeader,200);
+  customizeElfsightHeader();
 }

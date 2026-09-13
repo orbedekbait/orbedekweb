@@ -1,5 +1,2 @@
 [build.processing.html]
   pretty_urls = true
-
-[functions]
-  directory = "netlify/functions"
