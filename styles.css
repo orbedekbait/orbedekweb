@@ -613,6 +613,7 @@ html{scroll-padding-top:82px}
   .carousel-track>*{flex-basis:calc(100% - 48px)}
   .carousel-track>*{flex-grow:0;flex-shrink:0;scroll-snap-align:center;scroll-snap-stop:always}
   .carousel-track>article,.carousel-track>li{display:grid;grid-template-columns:48px minmax(0,1fr);align-content:center;align-items:start;gap:17px;min-height:220px;padding:25px 22px;text-align:right}
+  .why-us .carousel-track>article{align-content:start}
   .carousel-track>*>span{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;font-size:17px}
   .why-us .carousel-track>*>span{background:#e7f3fc;color:#3388cc}
   .home-process .carousel-track>*>span{background:#4894cc35;color:#91cef9}
