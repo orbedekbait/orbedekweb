@@ -153,7 +153,7 @@ if(elfsightGoogleReviews){
     if(!shadow.getElementById('or-bedek-elfsight-overrides')){
       const style=document.createElement('style');
       style.id='or-bedek-elfsight-overrides';
-      style.textContent='.es-widget-title-container{display:none!important}.es-header-heading-text,.es-header-rating-reviews-count{display:none!important}.es-header-rating-container{justify-content:center!important}';
+      style.textContent='.es-widget-title-container,.es-header-write-review-button{display:none!important}.es-header-heading-text,.es-header-rating-reviews-count{display:none!important}.es-header-rating-container{justify-content:center!important}';
       shadow.append(style);
     }
     window.clearInterval(elfsightHeaderTimer);
