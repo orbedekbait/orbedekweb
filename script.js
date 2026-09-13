@@ -162,9 +162,9 @@ if(googleReviewsSection){
     const card=document.createElement('article');
     card.className='google-review-card';
 
-    const author=document.createElement(review.authorUri?'a':'div');
-    author.className='review-author';
     const authorUrl=safeExternalUrl(review.authorUri);
+    const author=document.createElement(authorUrl?'a':'div');
+    author.className='review-author';
     if(authorUrl){
       author.href=authorUrl;
       author.target='_blank';
