@@ -13,25 +13,25 @@ Address: כצנלסון 148, גבעתיים, ישראל
 ## Primary pages
 
 - [דף הבית](https://orbedek.co.il/): תיאור השירות, תהליך הבדיקה והיתרונות ללקוח.
-- [אודות אור דקר](https://orbedek.co.il/about.html): ניסיון, גישה מקצועית ותחומי מומחיות.
-- [שירותים](https://orbedek.co.il/services.html): בדיקות דירה, דוחות, חוות דעת וליווי פרויקטים.
-- [שאלות נפוצות](https://orbedek.co.il/faq.html): תשובות על תזמון, היקף, מחיר, דוחות ואזורי שירות.
-- [בלוג בדק בית](https://orbedek.co.il/blog.html): כל המדריכים המקצועיים באתר.
-- [דוח לדוגמה](https://orbedek.co.il/sample-report.html): מבנה הדוח וקישור לקובץ PDF לדוגמה.
-- [יצירת קשר](https://orbedek.co.il/contact.html): טלפון, כתובת וטופס תיאום.
+- [אודות אור דקר](https://orbedek.co.il/about): ניסיון, גישה מקצועית ותחומי מומחיות.
+- [שירותים](https://orbedek.co.il/services): בדיקות דירה, דוחות, חוות דעת וליווי פרויקטים.
+- [שאלות נפוצות](https://orbedek.co.il/faq): תשובות על תזמון, היקף, מחיר, דוחות ואזורי שירות.
+- [בלוג בדק בית](https://orbedek.co.il/blog): כל המדריכים המקצועיים באתר.
+- [דוח לדוגמה](https://orbedek.co.il/sample-report): מבנה הדוח וקישור לקובץ PDF לדוגמה.
+- [יצירת קשר](https://orbedek.co.il/contact): טלפון, כתובת וטופס תיאום.
 
 ## Professional guides
 
-- [בדק בית לפני קניית דירה יד שנייה](https://orbedek.co.il/badek-home-before-buying.html)
-- [בדק בית לדירה חדשה מקבלן](https://orbedek.co.il/new-apartment-inspection.html)
-- [ליקויי בנייה בדירה חדשה](https://orbedek.co.il/construction-defects-new-apartment.html)
-- [רשימת בדיקה לפני מסירת דירה](https://orbedek.co.il/pre-delivery-checklist.html)
-- [בדיקת רטיבות בדירה](https://orbedek.co.il/moisture-inspection.html)
-- [בדק בית לדירת יד שנייה](https://orbedek.co.il/second-hand-home-inspection.html)
-- [מחיר בדק בית](https://orbedek.co.il/home-inspection-price.html)
-- [תקני בנייה בדירה חדשה](https://orbedek.co.il/construction-standards-new-apartment.html)
-- [בדיקת איטום גג ומרפסת](https://orbedek.co.il/roof-balcony-waterproofing.html)
-- [איך לקרוא דוח בדק בית](https://orbedek.co.il/home-inspection-report.html)
+- [בדק בית לפני קניית דירה יד שנייה](https://orbedek.co.il/badek-home-before-buying)
+- [בדק בית לדירה חדשה מקבלן](https://orbedek.co.il/new-apartment-inspection)
+- [ליקויי בנייה בדירה חדשה](https://orbedek.co.il/construction-defects-new-apartment)
+- [רשימת בדיקה לפני מסירת דירה](https://orbedek.co.il/pre-delivery-checklist)
+- [בדיקת רטיבות בדירה](https://orbedek.co.il/moisture-inspection)
+- [בדק בית לדירת יד שנייה](https://orbedek.co.il/second-hand-home-inspection)
+- [מחיר בדק בית](https://orbedek.co.il/home-inspection-price)
+- [תקני בנייה בדירה חדשה](https://orbedek.co.il/construction-standards-new-apartment)
+- [בדיקת איטום גג ומרפסת](https://orbedek.co.il/roof-balcony-waterproofing)
+- [איך לקרוא דוח בדק בית](https://orbedek.co.il/home-inspection-report)
 
 ## Content notes
 

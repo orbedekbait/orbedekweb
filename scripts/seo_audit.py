@@ -18,6 +18,11 @@ BASE_URL = "https://orbedek.co.il/"
 NOT_FOUND = "404.html"
 
 
+def public_url(path: Path) -> str:
+    """Return the extensionless production URL for a source HTML file."""
+    return BASE_URL if path.name == "index.html" else BASE_URL + path.stem
+
+
 class PageParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -92,9 +97,11 @@ def local_target(raw_url: str) -> tuple[str, str] | None:
     if raw_url.startswith(BASE_URL):
         path = unquote(parsed.path.lstrip("/"))
     else:
-        path = unquote(parsed.path)
+        path = unquote(parsed.path.lstrip("/"))
     if path in {"", ".", "./"}:
         path = "index.html"
+    elif not Path(path).suffix and (ROOT / f"{path}.html").is_file():
+        path = f"{path}.html"
     return path, unquote(parsed.fragment)
 
 
@@ -113,7 +120,7 @@ def main() -> int:
         description = meta_values(page, "name", "description")
         robots = meta_values(page, "name", "robots")
         canonical = link_values(page, "canonical")
-        expected_canonical = BASE_URL if path.name == "index.html" else BASE_URL + path.name
+        expected_canonical = public_url(path)
 
         if len(title) != 1 or not title[0]:
             errors.append(f"{path.name}: expected exactly one non-empty title")
@@ -167,6 +174,8 @@ def main() -> int:
                     if target and not (ROOT / target[0]).is_file():
                         errors.append(f"{source_name}: broken image target {image[attribute]}")
         for href in page.links:
+            if urlparse(href).path.endswith(".html"):
+                errors.append(f"{source_name}: public link must use a clean URL: {href}")
             target = local_target(href)
             if not target:
                 continue
@@ -183,7 +192,7 @@ def main() -> int:
     sitemap_root = ET.parse(ROOT / "sitemap.xml").getroot()
     sitemap_namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     sitemap_urls = {node.text or "" for node in sitemap_root.findall("sm:url/sm:loc", sitemap_namespace)}
-    expected_urls = {BASE_URL if path.name == "index.html" else BASE_URL + path.name for path in indexable_files}
+    expected_urls = {public_url(path) for path in indexable_files}
     if sitemap_urls != expected_urls:
         missing = sorted(expected_urls - sitemap_urls)
         extra = sorted(sitemap_urls - expected_urls)
@@ -201,12 +210,34 @@ def main() -> int:
     if not llms_text.startswith("# ") or BASE_URL not in llms_text:
         errors.append("llms.txt: expected a title and canonical site URL")
 
+    redirect_rules = {
+        tuple(line.split())
+        for line in (ROOT / "_redirects").read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    }
+    expected_redirects = {
+        (
+            f"/{path.name}",
+            "/" if path.name == "index.html" else f"/{path.stem}",
+            "301!",
+        )
+        for path in indexable_files
+    }
+    missing_redirects = sorted(expected_redirects - redirect_rules)
+    if missing_redirects:
+        errors.append(f"_redirects: missing permanent clean-URL redirects: {missing_redirects}")
+
+    netlify_config = (ROOT / "netlify.toml").read_text(encoding="utf-8")
+    if not re.search(r"(?m)^\s*pretty_urls\s*=\s*true\s*$", netlify_config):
+        errors.append("netlify.toml: Pretty URLs must be enabled")
+
     if not errors:
         print(f"PASS: {len(indexable_files)} indexable pages match sitemap.xml")
         print("PASS: unique titles, descriptions, canonicals, H1s, robots directives and OG metadata")
         print("PASS: 404 is noindex and excluded from the sitemap")
         print("PASS: internal links, fragments, images and JSON-LD are valid")
         print("PASS: robots.txt and llms.txt are present and internally consistent")
+        print("PASS: clean URLs and permanent .html redirects are configured")
     for warning in warnings:
         print(f"WARN: {warning}")
     for error in errors:

@@ -1,0 +1,18 @@
+# Keep one indexable URL per page. These rules override the physical HTML files.
+/index.html                                  /                                  301!
+/about.html                                  /about                             301!
+/badek-home-before-buying.html               /badek-home-before-buying          301!
+/blog.html                                   /blog                              301!
+/construction-defects-new-apartment.html     /construction-defects-new-apartment 301!
+/construction-standards-new-apartment.html   /construction-standards-new-apartment 301!
+/contact.html                                /contact                           301!
+/faq.html                                    /faq                               301!
+/home-inspection-price.html                  /home-inspection-price             301!
+/home-inspection-report.html                 /home-inspection-report            301!
+/moisture-inspection.html                    /moisture-inspection               301!
+/new-apartment-inspection.html               /new-apartment-inspection          301!
+/pre-delivery-checklist.html                 /pre-delivery-checklist            301!
+/roof-balcony-waterproofing.html             /roof-balcony-waterproofing        301!
+/sample-report.html                          /sample-report                     301!
+/second-hand-home-inspection.html            /second-hand-home-inspection       301!
+/services.html                               /services                          301!

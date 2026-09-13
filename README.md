@@ -1,12 +1,11 @@
 # אור בדק בית — אתר טיוטה
 
-זהו אתר HTML סטטי ראשוני בעברית. להפעלה מקומית פשוט פותחים את `index.html` בדפדפן, או מריצים שרת סטטי:
+זהו אתר HTML סטטי בעברית. כתובות העמודים הציבוריות נקיות מסיומת, למשל `/about`, ולכן התצוגה המקומית משתמשת בשרת הפיתוח המצורף:
 
 ```bash
-cd /Users/rondahan/Documents/bedek\ or/or-bedek-home-inspection
-python3 -m http.server 8000
+python3 scripts/dev_server.py
 ```
 
-לאחר מכן פותחים `http://localhost:8000`.
+לאחר מכן פותחים `http://localhost:8000`. השרת ממפה את הכתובות הנקיות לקובצי ה-HTML המקומיים כפי ש-Netlify עושה בפרודקשן.
 
 פרטים שעדיין דרושים מסומנים ב-`placeholders.json` באמצעות `TODO`.

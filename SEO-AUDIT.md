@@ -1,10 +1,12 @@
 # SEO and GEO audit — אור בדק בית
 
-Audit date: 2026-08-30
+Audit date: 2026-09-13
 
 ## Executive result
 
 The repository now passes the local technical SEO audit for all 17 indexable HTML pages. Every indexable page is represented once in `sitemap.xml`; the dedicated `404.html` is explicitly `noindex` and excluded. Crawl controls, unique canonicals, page titles, descriptions, H1s, social metadata, locale signals, internal links, images, and JSON-LD all pass the automated source checks.
+
+Public page URLs now use extensionless paths such as `https://orbedek.co.il/about`. Netlify permanently redirects each former `.html` URL to its clean equivalent, and all internal links, canonicals, Open Graph URLs, structured data, `llms.txt`, and sitemap entries use the same format.
 
 Google does not guarantee indexing merely because a page is in a sitemap. Deployment and Google Search Console checks in the final section are still required.
 
@@ -30,6 +32,7 @@ python3 scripts/seo_audit.py
 | robots.txt | Pass | Global crawl allowed; absolute sitemap directive |
 | Page robots directives | Pass | All content pages use `index, follow`; 404 uses `noindex, follow` |
 | Canonical URLs | Pass | Unique, self-referencing, and aligned with sitemap URLs |
+| URL variants | Pass in source | Clean URLs are canonical; explicit `301` redirects cover every former `.html` URL |
 | Internal crawlable links | Pass | No missing local files or fragment targets |
 | Titles and descriptions | Pass | Present and unique on every indexable page |
 | Primary headings | Pass | Exactly one non-empty H1 on every page |
@@ -38,6 +41,21 @@ python3 scripts/seo_audit.py
 | JSON-LD syntax | Pass | Every structured-data block parses as valid JSON |
 
 Google's sitemap guidance requires absolute URLs and recommends listing the canonical URLs intended for Search. The sitemap is a discovery hint, not an indexing guarantee: [Google sitemap documentation](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).
+
+## 2026-09-13 indexing investigation
+
+The Search Console example report showed the submitted `.html` URLs as **Crawled — currently not indexed** shortly after discovery. The `.html` suffix itself is valid and does not prevent indexing. The actionable issue was inconsistent URL signaling on the deployed Netlify site:
+
+- Both `/about` and `/about.html` returned `200` with identical content.
+- Netlify's HTML post-processing changed internal navigation links to clean paths such as `/about`.
+- Canonical elements, Open Graph URLs, structured data, and the submitted sitemap still selected `/about.html`.
+- `/about/` redirected to `/about`, creating an additional signal in favor of the clean form.
+
+This split does not necessarily explain every non-indexed page, but it gives Google conflicting duplicate/canonical signals and is worth correcting. The implementation now selects extensionless URLs consistently and uses forced permanent redirects in `_redirects` so the physical `.html` files cannot shadow those rules. `netlify.toml` also records that Netlify Pretty URLs must stay enabled.
+
+The live host otherwise passed the relevant crawl checks at the time of investigation: HTTP redirected to HTTPS, `www` redirected to the apex host, sitemap and robots files returned `200`, intended pages returned `200`, and an invented missing URL returned a real `404`. The site was also new enough that indexing latency and Google's assessment of page value remain plausible contributors; a successful crawl and sitemap submission do not guarantee indexing.
+
+A secondary content risk remains: the ten guide pages contain roughly 308–394 words in their main content, follow a very similar structure, and several address closely related search intent. There is no technical minimum word count, but adding first-hand inspection examples, original photos, concrete measurements, author qualifications, and authoritative references would make the pages more distinctive and useful. Prioritize the home page and core service pages first, then strengthen overlapping guides before repeatedly requesting their indexing.
 
 ## Google Search requirements audit
 
@@ -107,15 +125,16 @@ Content opportunity: the articles are focused and readable, but stronger first-h
 
 ## Required post-deployment checks
 
-1. Confirm the final production hostname and replace the assumed GitHub Pages base if necessary.
-2. Verify HTTPS and one preferred host/version; permanently redirect all HTTP and alternate-host URLs to it.
-3. Confirm a real missing URL returns HTTP `404` and the custom `404.html` content.
-4. Open `/robots.txt`, `/sitemap.xml`, and `/llms.txt` publicly and verify they return `200` as plain text/XML.
-5. Verify the site in Google Search Console and submit `/sitemap.xml` once.
-6. Use URL Inspection on the home page, services, contact, blog, and several articles; request indexing after successful live tests.
-7. Validate production pages with Google's Rich Results Test and monitor Enhancements / Page Indexing reports.
-8. Measure production Core Web Vitals and HTTPS status in Search Console. Local source review cannot substitute for real-user field data.
-9. Monitor indexed-versus-submitted sitemap counts. Investigate exclusions rather than repeatedly resubmitting an unchanged sitemap.
+1. Deploy from this repository root and confirm Netlify reports all 17 `_redirects` rules as processed.
+2. Confirm every clean URL returns `200`, each matching `.html` URL returns one `301` to the clean URL, and `/index.html` returns one `301` to `/`.
+3. Verify HTTPS and one preferred host/version; permanently redirect all HTTP and alternate-host URLs to it.
+4. Confirm a real missing URL returns HTTP `404` and the custom `404.html` content.
+5. Open `/robots.txt`, `/sitemap.xml`, and `/llms.txt` publicly and verify they return `200` as plain text/XML.
+6. Resubmit `/sitemap.xml` in Google Search Console after the clean-URL deployment.
+7. Use URL Inspection on the clean home, services, contact, blog, and several article URLs; run the live test and request indexing for the most important pages.
+8. Validate production pages with Google's Rich Results Test and monitor Enhancements / Page Indexing reports.
+9. Measure production Core Web Vitals and HTTPS status in Search Console. Local source review cannot substitute for real-user field data.
+10. Monitor indexed-versus-submitted sitemap counts. Investigate exclusions rather than repeatedly resubmitting an unchanged sitemap.
 
 Google's current page-experience guidance emphasizes Core Web Vitals, HTTPS, mobile usability, and an unobstructed main experience: [Google page experience guidance](https://developers.google.com/search/docs/appearance/page-experience).
 
@@ -125,4 +144,4 @@ Google's current page-experience guidance emphasizes Core Web Vitals, HTTPS, mob
 python3 scripts/seo_audit.py
 ```
 
-The command exits non-zero if sitemap coverage, canonical alignment, index directives, metadata, H1 count, JSON-LD syntax, internal links, fragments, images, `robots.txt`, `llms.txt`, or 404 exclusions regress.
+The command exits non-zero if sitemap coverage, canonical alignment, index directives, metadata, H1 count, JSON-LD syntax, internal links, fragments, images, clean-URL redirects, Netlify Pretty URLs, `robots.txt`, `llms.txt`, or 404 exclusions regress.
