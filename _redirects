@@ -1,4 +1,25 @@
-# Keep one indexable URL per page. These rules override the physical HTML files.
+# Keep one preferred host and one indexable URL per page. These rules override
+# the physical HTML files and send every legacy variant directly to its final URL.
+https://www.orbedek.co.il/index.html         https://orbedek.co.il/             301!
+https://www.orbedek.co.il/about.html         https://orbedek.co.il/about        301!
+https://www.orbedek.co.il/badek-home-before-buying.html https://orbedek.co.il/badek-home-before-buying 301!
+https://www.orbedek.co.il/blog.html          https://orbedek.co.il/blog         301!
+https://www.orbedek.co.il/construction-defects-new-apartment.html https://orbedek.co.il/construction-defects-new-apartment 301!
+https://www.orbedek.co.il/construction-standards-new-apartment.html https://orbedek.co.il/construction-standards-new-apartment 301!
+https://www.orbedek.co.il/contact.html       https://orbedek.co.il/contact      301!
+https://www.orbedek.co.il/faq.html           https://orbedek.co.il/faq          301!
+https://www.orbedek.co.il/home-inspection-price.html https://orbedek.co.il/home-inspection-price 301!
+https://www.orbedek.co.il/home-inspection-report.html https://orbedek.co.il/home-inspection-report 301!
+https://www.orbedek.co.il/moisture-inspection.html https://orbedek.co.il/moisture-inspection 301!
+https://www.orbedek.co.il/new-apartment-inspection.html https://orbedek.co.il/new-apartment-inspection 301!
+https://www.orbedek.co.il/pre-delivery-checklist.html https://orbedek.co.il/pre-delivery-checklist 301!
+https://www.orbedek.co.il/roof-balcony-waterproofing.html https://orbedek.co.il/roof-balcony-waterproofing 301!
+https://www.orbedek.co.il/sample-report.html https://orbedek.co.il/sample-report 301!
+https://www.orbedek.co.il/services.html      https://orbedek.co.il/services     301!
+https://www.orbedek.co.il/second-hand-home-inspection https://orbedek.co.il/badek-home-before-buying 301!
+https://www.orbedek.co.il/second-hand-home-inspection/ https://orbedek.co.il/badek-home-before-buying 301!
+https://www.orbedek.co.il/second-hand-home-inspection.html https://orbedek.co.il/badek-home-before-buying 301!
+https://www.orbedek.co.il/*                  https://orbedek.co.il/:splat       301!
 /index.html                                  /                                  301!
 /about.html                                  /about                             301!
 /badek-home-before-buying.html               /badek-home-before-buying          301!
@@ -14,5 +35,7 @@
 /pre-delivery-checklist.html                 /pre-delivery-checklist            301!
 /roof-balcony-waterproofing.html             /roof-balcony-waterproofing        301!
 /sample-report.html                          /sample-report                     301!
-/second-hand-home-inspection.html            /second-hand-home-inspection       301!
+/second-hand-home-inspection                 /badek-home-before-buying          301!
+/second-hand-home-inspection/                /badek-home-before-buying          301!
+/second-hand-home-inspection.html            /badek-home-before-buying          301!
 /services.html                               /services                          301!

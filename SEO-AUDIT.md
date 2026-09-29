@@ -1,10 +1,10 @@
 # SEO and GEO audit — אור בדק בית
 
-Audit date: 2026-09-13
+Audit date: 2026-09-29
 
 ## Executive result
 
-The repository now passes the local technical SEO audit for all 17 indexable HTML pages. Every indexable page is represented once in `sitemap.xml`; the dedicated `404.html` is explicitly `noindex` and excluded. Crawl controls, unique canonicals, page titles, descriptions, H1s, social metadata, locale signals, internal links, images, and JSON-LD all pass the automated source checks.
+The repository now passes the local technical SEO audit for all 16 indexable HTML pages. Every indexable page is represented once in `sitemap.xml`; the dedicated `404.html` and the merged legacy second-hand page are excluded. Crawl controls, unique canonicals, page titles, descriptions, H1s, social metadata, locale signals, internal links, images, JSON-LD, preferred-host redirects, redirect chains, and conversion-event hooks all pass the automated source checks.
 
 Public page URLs now use extensionless paths such as `https://orbedek.co.il/about`. Netlify permanently redirects each former `.html` URL to its clean equivalent, and all internal links, canonicals, Open Graph URLs, structured data, `llms.txt`, and sitemap entries use the same format.
 
@@ -26,8 +26,8 @@ python3 scripts/seo_audit.py
 
 | Check | Result | Notes |
 |---|---|---|
-| Indexable page inventory | Pass | 17 public content pages |
-| XML sitemap coverage | Pass | 17/17 indexable pages; absolute canonical URLs |
+| Indexable page inventory | Pass | 16 public content pages after consolidating the overlapping second-hand guides |
+| XML sitemap coverage | Pass | 16/16 indexable pages; absolute canonical URLs |
 | 404 in sitemap | Pass | Excluded |
 | robots.txt | Pass | Global crawl allowed; absolute sitemap directive |
 | Page robots directives | Pass | All content pages use `index, follow`; 404 uses `noindex, follow` |
@@ -53,7 +53,9 @@ The Search Console example report showed the submitted `.html` URLs as **Crawled
 
 This split does not necessarily explain every non-indexed page, but it gives Google conflicting duplicate/canonical signals and is worth correcting. The implementation now selects extensionless URLs consistently and uses forced permanent redirects in `_redirects` so the physical `.html` files cannot shadow those rules. `netlify.toml` also records that Netlify Pretty URLs must stay enabled.
 
-The live host otherwise passed the relevant crawl checks at the time of investigation: HTTP redirected to HTTPS, `www` redirected to the apex host, sitemap and robots files returned `200`, intended pages returned `200`, and an invented missing URL returned a real `404`. The site was also new enough that indexing latency and Google's assessment of page value remain plausible contributors; a successful crawl and sitemap submission do not guarantee indexing.
+The live host otherwise passed the relevant crawl checks at the time of investigation: HTTP redirected to HTTPS, sitemap and robots files returned `200`, intended pages returned `200`, and an invented missing URL returned a real `404`. A later check on 2026-09-29 found that `www` returned `200` instead of redirecting; the repository now contains a forced wildcard `301` to the apex host and it must be verified after deployment. The site was also new enough that indexing latency and Google's assessment of page value remain plausible contributors; a successful crawl and sitemap submission do not guarantee indexing.
+
+The overlapping `/second-hand-home-inspection` guide was consolidated into `/badek-home-before-buying`. All clean, trailing-slash, and `.html` legacy variants now redirect directly to the final canonical URL without an intermediate hop.
 
 A secondary content risk remains: the ten guide pages contain roughly 308–394 words in their main content, follow a very similar structure, and several address closely related search intent. There is no technical minimum word count, but adding first-hand inspection examples, original photos, concrete measurements, author qualifications, and authoritative references would make the pages more distinctive and useful. Prioritize the home page and core service pages first, then strengthen overlapping guides before repeatedly requesting their indexing.
 
@@ -125,7 +127,7 @@ Content opportunity: the articles are focused and readable, but stronger first-h
 
 ## Required post-deployment checks
 
-1. Deploy from this repository root and confirm Netlify reports all 17 `_redirects` rules as processed.
+1. Deploy from this repository root and confirm Netlify processes the preferred-host and clean-URL rules in `_redirects`.
 2. Confirm every clean URL returns `200`, each matching `.html` URL returns one `301` to the clean URL, and `/index.html` returns one `301` to `/`.
 3. Verify HTTPS and one preferred host/version; permanently redirect all HTTP and alternate-host URLs to it.
 4. Confirm a real missing URL returns HTTP `404` and the custom `404.html` content.

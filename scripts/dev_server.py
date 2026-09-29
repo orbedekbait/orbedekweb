@@ -11,11 +11,27 @@ from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parent.parent
+LOCAL_REDIRECTS = {
+    "/second-hand-home-inspection": "/badek-home-before-buying",
+    "/second-hand-home-inspection/": "/badek-home-before-buying",
+    "/second-hand-home-inspection.html": "/badek-home-before-buying",
+}
 
 
 class CleanURLHandler(SimpleHTTPRequestHandler):
     def send_head(self):  # type: ignore[no-untyped-def]
-        requested_path = unquote(urlsplit(self.path).path).lstrip("/")
+        parsed_url = urlsplit(self.path)
+        decoded_path = unquote(parsed_url.path)
+        if decoded_path in LOCAL_REDIRECTS:
+            target = LOCAL_REDIRECTS[decoded_path]
+            if parsed_url.query:
+                target += f"?{parsed_url.query}"
+            self.send_response(301)
+            self.send_header("Location", target)
+            self.end_headers()
+            return None
+
+        requested_path = decoded_path.lstrip("/")
         candidate = ROOT / f"{requested_path}.html"
         if requested_path and not Path(requested_path).suffix and candidate.is_file():
             original_path = self.path

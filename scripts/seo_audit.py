@@ -16,6 +16,14 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parent.parent
 BASE_URL = "https://orbedek.co.il/"
 NOT_FOUND = "404.html"
+REDIRECTED_PAGES = {
+    "second-hand-home-inspection.html": "/badek-home-before-buying",
+}
+PREFERRED_HOST_REDIRECT = (
+    "https://www.orbedek.co.il/*",
+    "https://orbedek.co.il/:splat",
+    "301!",
+)
 
 
 def public_url(path: Path) -> str:
@@ -109,7 +117,11 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     html_files = sorted(ROOT.glob("*.html"))
-    indexable_files = [path for path in html_files if path.name != NOT_FOUND]
+    indexable_files = [
+        path
+        for path in html_files
+        if path.name != NOT_FOUND and path.name not in REDIRECTED_PAGES
+    ]
     pages = {path.name: parse_page(path) for path in html_files}
 
     titles: list[str] = []
@@ -164,6 +176,15 @@ def main() -> int:
     if link_values(not_found, "canonical"):
         errors.append("404.html: must not declare a canonical URL")
 
+    for source_name, redirect_target in REDIRECTED_PAGES.items():
+        redirected_page = pages[source_name]
+        redirected_robots = meta_values(redirected_page, "name", "robots")
+        expected_target = BASE_URL.rstrip("/") + redirect_target
+        if not redirected_robots or "noindex" not in redirected_robots[0].lower():
+            errors.append(f"{source_name}: redirected source must contain noindex")
+        if link_values(redirected_page, "canonical") != [expected_target]:
+            errors.append(f"{source_name}: redirected source canonical must be {expected_target}")
+
     for source_name, page in pages.items():
         for image in page.images:
             if "alt" not in image:
@@ -174,6 +195,12 @@ def main() -> int:
                     if target and not (ROOT / target[0]).is_file():
                         errors.append(f"{source_name}: broken image target {image[attribute]}")
         for href in page.links:
+            if urlparse(href).path in {
+                "/second-hand-home-inspection",
+                "/second-hand-home-inspection/",
+                "/second-hand-home-inspection.html",
+            }:
+                errors.append(f"{source_name}: internal link points to redirected URL: {href}")
             if urlparse(href).path.endswith(".html"):
                 errors.append(f"{source_name}: public link must use a clean URL: {href}")
             target = local_target(href)
@@ -223,9 +250,63 @@ def main() -> int:
         )
         for path in indexable_files
     }
+    expected_redirects.add(PREFERRED_HOST_REDIRECT)
+    expected_redirects.update(
+        (
+            f"https://www.orbedek.co.il/{path.name}",
+            BASE_URL if path.name == "index.html" else f"{BASE_URL}{path.stem}",
+            "301!",
+        )
+        for path in indexable_files
+    )
+    for source_name, target in REDIRECTED_PAGES.items():
+        clean_source = "/" + Path(source_name).stem
+        absolute_target = BASE_URL.rstrip("/") + target
+        expected_redirects.update(
+            {
+                (f"/{source_name}", target, "301!"),
+                (clean_source, target, "301!"),
+                (clean_source + "/", target, "301!"),
+                (f"https://www.orbedek.co.il/{source_name}", absolute_target, "301!"),
+                (f"https://www.orbedek.co.il{clean_source}", absolute_target, "301!"),
+                (f"https://www.orbedek.co.il{clean_source}/", absolute_target, "301!"),
+            }
+        )
     missing_redirects = sorted(expected_redirects - redirect_rules)
     if missing_redirects:
         errors.append(f"_redirects: missing permanent clean-URL redirects: {missing_redirects}")
+
+    redirect_map = {
+        source: target
+        for source, target, status in redirect_rules
+        if status.startswith("301")
+    }
+    def next_redirect(target: str):
+        if target in redirect_map:
+            return redirect_map[target]
+        parsed_target = urlparse(target)
+        if parsed_target.hostname == "orbedek.co.il":
+            return redirect_map.get(parsed_target.path or "/")
+        return None
+
+    redirect_chains = sorted(
+        (source, target, next_target)
+        for source, target in redirect_map.items()
+        if (next_target := next_redirect(target)) is not None
+    )
+    if redirect_chains:
+        errors.append(f"_redirects: permanent redirect chains found: {redirect_chains}")
+
+    tracking_script = (ROOT / "script.js").read_text(encoding="utf-8")
+    for event_name in (
+        "generate_lead",
+        "whatsapp_click",
+        "phone_click",
+        "report_download",
+        "maps_click",
+    ):
+        if f"'{event_name}'" not in tracking_script:
+            errors.append(f"script.js: missing analytics event {event_name}")
 
     netlify_config = (ROOT / "netlify.toml").read_text(encoding="utf-8")
     if not re.search(r"(?m)^\s*pretty_urls\s*=\s*true\s*$", netlify_config):
@@ -237,7 +318,8 @@ def main() -> int:
         print("PASS: 404 is noindex and excluded from the sitemap")
         print("PASS: internal links, fragments, images and JSON-LD are valid")
         print("PASS: robots.txt and llms.txt are present and internally consistent")
-        print("PASS: clean URLs and permanent .html redirects are configured")
+        print("PASS: preferred host, clean URLs and direct permanent redirects are configured")
+        print("PASS: lead and contact analytics events are present")
     for warning in warnings:
         print(f"WARN: {warning}")
     for error in errors:
