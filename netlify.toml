@@ -1,2 +1,6 @@
+[build]
+  command = "python3 scripts/seo_audit.py"
+  publish = "."
+
 [build.processing.html]
   pretty_urls = true

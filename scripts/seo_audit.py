@@ -189,11 +189,25 @@ def main() -> int:
         for image in page.images:
             if "alt" not in image:
                 errors.append(f"{source_name}: image is missing an alt attribute")
+            classes = image.get("class", "").split()
+            if "post-cover" in classes:
+                if "srcset" not in image or "-800.jpg 800w" not in image["srcset"]:
+                    errors.append(f"{source_name}: post cover must include an 800px responsive source")
+                if not image.get("sizes"):
+                    errors.append(f"{source_name}: post cover must declare responsive sizes")
+                if not image.get("width") or not image.get("height"):
+                    errors.append(f"{source_name}: post cover must reserve its layout dimensions")
             for attribute in ("src", "data-src"):
                 if image.get(attribute):
                     target = local_target(image[attribute])
                     if target and not (ROOT / target[0]).is_file():
                         errors.append(f"{source_name}: broken image target {image[attribute]}")
+            for source in image.get("srcset", "").split(","):
+                source_url = source.strip().split(" ", 1)[0]
+                if source_url:
+                    target = local_target(source_url)
+                    if target and not (ROOT / target[0]).is_file():
+                        errors.append(f"{source_name}: broken responsive image target {source_url}")
         for href in page.links:
             if urlparse(href).path in {
                 "/second-hand-home-inspection",
@@ -309,6 +323,8 @@ def main() -> int:
             errors.append(f"script.js: missing analytics event {event_name}")
 
     netlify_config = (ROOT / "netlify.toml").read_text(encoding="utf-8")
+    if not re.search(r'(?m)^\s*command\s*=\s*"python3 scripts/seo_audit\.py"\s*$', netlify_config):
+        errors.append("netlify.toml: deployment must run the SEO regression audit")
     if not re.search(r"(?m)^\s*pretty_urls\s*=\s*true\s*$", netlify_config):
         errors.append("netlify.toml: Pretty URLs must be enabled")
 
