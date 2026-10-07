@@ -632,9 +632,9 @@ html{scroll-padding-top:82px}
 }
 
 /* Homepage portrait */
-.home-page .hero-photo-visual{overflow:hidden;border-radius:32px;background:#dceefc;box-shadow:0 24px 60px #173c5c26}
+.home-page .hero-photo-visual{overflow:hidden;border:1px solid #d7e6f3;border-radius:32px;background:#dceefc;box-shadow:0 24px 60px #173c5c26}
 .hero-photo-visual:before,.hero-photo-visual:after{display:none}
-.hero-photo-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-photo-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 42%;filter:saturate(.9) contrast(.98)}
 @media(max-width:780px){
   .home-page .hero-photo-visual{margin-inline:12px;border-radius:24px}
   .home-page .hero-copy{text-align:center}
@@ -648,6 +648,15 @@ html{scroll-padding-top:82px}
 @media(max-width:780px){
   .article{padding-inline:24px}
   .article-cta{margin-inline:-24px;border-radius:8px 8px 0 0}
+}
+
+/* Full-bleed mobile hero with a soft transition into the copy */
+@media(max-width:780px){
+  .home-page .hero{padding:0;gap:0;background:#fff;overflow:hidden}
+  .home-page .hero-photo-visual{width:100%;height:min(112vw,470px);margin:0;border:0;border-radius:0;box-shadow:none;isolation:isolate}
+  .home-page .hero-photo-visual img{object-position:center 42%}
+  .home-page .hero-photo-visual:after{content:'';display:block;position:absolute;z-index:1;top:auto;right:0;bottom:0;left:0;height:36%;background:linear-gradient(180deg,#fff0 0%,#fff5 38%,#fffc 72%,#fff 100%);pointer-events:none}
+  .home-page .hero-copy{z-index:2;margin-top:-58px;padding:0 24px 36px;background:transparent}
 }
 
 /* Tighter transition from the services process to the service details */
