@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://orbedek.co.il/</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://orbedek.co.il/about</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://orbedek.co.il/blog</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://orbedek.co.il/contact</loc>
@@ -63,5 +63,17 @@
   <url>
     <loc>https://orbedek.co.il/home-inspection-report</loc>
     <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://orbedek.co.il/how-to-choose-home-inspector</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://orbedek.co.il/defect-and-warranty-period</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://orbedek.co.il/reinspection-after-contractor-repairs</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
 </urlset>
