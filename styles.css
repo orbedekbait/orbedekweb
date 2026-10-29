@@ -310,6 +310,9 @@
 .footer-links a{width:max-content;max-width:100%;color:#cfe5f5;text-decoration:none;text-underline-offset:4px}
 .footer-links a:hover,.footer-links a:focus-visible{color:#fff;text-decoration:underline}
 .footer-bottom{display:flex;justify-content:space-between;gap:24px;max-width:1220px;margin:auto;padding-top:22px;border-top:1px solid #dcecf833;color:#a9c6dc;font-size:14px}
+.footer-credit{display:inline-flex;align-items:center;gap:7px;margin-inline-start:8px;white-space:nowrap}
+.footer-credit a{color:#d8b278;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.footer-credit a:hover,.footer-credit a:focus-visible{color:#f0ca8d}
 @media(max-width:780px){.contact-actions{max-width:300px;margin:28px auto 0}.site-footer{padding:44px 24px 22px}.footer-main{grid-template-columns:1fr;gap:34px;margin-bottom:34px}.footer-links{grid-template-columns:1fr 1fr;gap:30px}.footer-links>div:last-child{grid-column:1/-1}.footer-bottom{display:grid;gap:8px}.post-cover{height:210px}}
 @media(max-width:460px){.footer-links{grid-template-columns:1fr}.footer-links>div:last-child{grid-column:auto}}
 
