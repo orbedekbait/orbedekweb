@@ -314,13 +314,30 @@ def main() -> int:
     tracking_script = (ROOT / "script.js").read_text(encoding="utf-8")
     for event_name in (
         "generate_lead",
-        "whatsapp_click",
-        "phone_click",
-        "report_download",
         "maps_click",
     ):
         if f"'{event_name}'" not in tracking_script:
             errors.append(f"script.js: missing analytics event {event_name}")
+    if "contact_method" not in tracking_script:
+        errors.append("script.js: missing analytics parameter contact_method")
+    if any(
+        legacy_event in tracking_script
+        for legacy_event in ("'whatsapp_click'", "'phone_click'", "'report_download'")
+    ):
+        errors.append("script.js: legacy duplicate analytics events are still present")
+
+    consent_script = (ROOT / "consent-init.js").read_text(encoding="utf-8")
+    for consent_type in (
+        "analytics_storage",
+        "ad_storage",
+        "ad_user_data",
+        "ad_personalization",
+    ):
+        if consent_type not in consent_script:
+            errors.append(f"consent-init.js: missing consent type {consent_type}")
+    for path in html_files:
+        if "/consent-init.js" not in path.read_text(encoding="utf-8"):
+            errors.append(f"{path.name}: consent initialization must load before GTM")
 
     netlify_config = (ROOT / "netlify.toml").read_text(encoding="utf-8")
     if not re.search(r'(?m)^\s*command\s*=\s*"python3 scripts/seo_audit\.py"\s*$', netlify_config):
@@ -335,7 +352,7 @@ def main() -> int:
         print("PASS: internal links, fragments, images and JSON-LD are valid")
         print("PASS: robots.txt and llms.txt are present and internally consistent")
         print("PASS: preferred host, clean URLs and direct permanent redirects are configured")
-        print("PASS: lead and contact analytics events are present")
+        print("PASS: consolidated lead analytics and Consent Mode v2 are present")
     for warning in warnings:
         print(f"WARN: {warning}")
     for error in errors:
