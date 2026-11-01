@@ -50,39 +50,22 @@ def footer() -> str:
     return '''<footer class="site-footer"><div class="footer-main"><section class="footer-brand" aria-label="אודות אור בדק בית"><a class="logo footer-logo" href="/"><img src="/public/images/or-bedek-logo-2026.png" alt="לוגו אור בדק בית"></a><h2>אור בדק בית</h2><p>בדק בית לדירות חדשות ויד שנייה, איתור ליקויים ודוחות מסודרים.</p></section><nav class="footer-column" aria-label="קישורים מהירים"><h2>קישורים מהירים</h2><a href="/">עמוד הבית</a><a href="/services">כל השירותים</a><a href="/service-areas">אזורי שירות</a><a href="/about">אודות אור דקר</a><a href="/contact">צור קשר</a></nav><nav class="footer-column" aria-label="שירותים מובילים"><h2>שירותים מובילים</h2><a href="/new-apartment-inspection">בדק בית לדירה חדשה</a><a href="/badek-home-before-buying">בדק בית לפני קנייה</a><a href="/moisture-inspection">בדיקת רטיבות</a><a href="/sample-report">דוח לדוגמה</a></nav><section class="footer-column footer-contact"><h2>צור קשר</h2><a href="tel:+972523199403">052-319-9403</a><a class="footer-cta" href="/contact">לתיאום בדיקת דירה</a></section></div><div class="footer-bottom"><span>© <span id="year"></span> אור בדק בית. כל הזכויות שמורות.</span><span>שירות בתיאום לפי מיקום הנכס</span></div></footer><script src="/script.js?v=20261029-1"></script>'''
 
 
-def document(slug: str, title: str, description: str, body: str, schema: dict, *, stylesheet_version: str = "20261029-1") -> str:
+def document(slug: str, title: str, description: str, body: str, schema: dict) -> str:
     url = f"{BASE}/{slug}"
     return f'''<!doctype html>
 <html lang="he-IL" dir="rtl"><head><script src="/consent-init.js"></script>
 <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','GTM-MCD7BSML');</script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="{e(description)}"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="canonical" href="{url}"><link rel="describedby" href="{BASE}/llms.txt" type="text/plain">
-<meta property="og:type" content="website"><meta property="og:locale" content="he_IL"><meta property="og:site_name" content="אור בדק בית"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/public/images/or-deker-social-share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="/public/images/or-bedek-logo-2026.png"><title>{e(title)}</title><link rel="stylesheet" href="/styles.css?v={stylesheet_version}"><script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script></head>
+<meta property="og:type" content="website"><meta property="og:locale" content="he_IL"><meta property="og:site_name" content="אור בדק בית"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/public/images/or-deker-social-share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="/public/images/or-bedek-logo-2026.png"><title>{e(title)}</title><link rel="stylesheet" href="/styles.css?v=20261029-1"><script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script></head>
 <body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCD7BSML" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>{header()}<main>{body}</main>{footer()}</body></html>
 '''
 
 
-def city_links(cities: list[tuple[str, ...]], *, with_photos: bool = False) -> str:
-    cards = []
-    city_positions = {city[1]: index for index, city in enumerate(CITIES)}
-
-    for name, slug, locative, *_ in cities:
-        content = f'<strong>בדק בית {e(locative)}</strong><span>{e(name)}</span><b>למידע על השירות בעיר ←</b>'
-        if with_photos:
-            position = city_positions[slug]
-            column = position % 7
-            row = position // 7
-            photo = (
-                f'<span class="area-card-photo" role="img" aria-label="איור של {e(name)}" '
-                f'style="--photo-x:{column * 100 / 6:.4f}%;--photo-y:{row * 50}%"></span>'
-            )
-            content = f'{photo}<span class="area-card-copy">{content}</span>'
-            card_class = 'area-card area-card--illustrated'
-        else:
-            card_class = 'area-card'
-        cards.append(f'<a class="{card_class}" href="/home-inspection-{slug}">{content}</a>')
-
-    grid_class = 'area-grid area-grid--illustrated' if with_photos else 'area-grid'
-    return f'<div class="{grid_class}">' + ''.join(cards) + '</div>'
+def city_links(cities: list[tuple[str, ...]]) -> str:
+    return '<div class="area-grid">' + ''.join(
+        f'<a class="area-card" href="/home-inspection-{slug}"><strong>בדק בית {e(locative)}</strong><span>{e(name)}</span><b>למידע על השירות בעיר ←</b></a>'
+        for name, slug, locative, *_ in cities
+    ) + '</div>'
 
 
 def build_hub() -> None:
@@ -91,10 +74,10 @@ def build_hub() -> None:
     description = 'בדק בית בעשרים ערים באזור המרכז והשרון. בחרו את העיר שלכם למידע על הכנה לבדיקה, שירות לדירה חדשה ולדירת יד שנייה ותיאום ביקור.'
     body = f'''<nav class="area-breadcrumb section" aria-label="פירורי לחם"><a href="/">בית</a><span> / אזורי שירות</span></nav>
 <section class="section service-hero area-hero"><p class="eyebrow">אור בדק בית · אזורי שירות</p><h1>בדק בית באזורי השירות</h1><p>בחרו את העיר שבה נמצא הנכס כדי לראות כיצד להתכונן לבדיקה. הרשימה מבוססת על אזורי השירות שהוגדרו לעסק; זמינות ומועד הביקור נקבעים בשיחה לפי הנכס.</p></section>
-<section class="section area-section"><h2>בחרו עיר</h2><p>העמודים עוסקים בבדיקת דירה חדשה מקבלן או נכס לפני רכישה. אם העיר שלכם אינה מופיעה, אפשר לפנות אלינו ולברר זמינות.</p>{city_links(CITIES, with_photos=True)}</section>
+<section class="section area-section"><h2>בחרו עיר</h2><p>העמודים עוסקים בבדיקת דירה חדשה מקבלן או נכס לפני רכישה. אם העיר שלכם אינה מופיעה, אפשר לפנות אלינו ולברר זמינות.</p>{city_links(CITIES)}</section>
 <section class="section area-section area-guide"><h2>מה להכין לפני תיאום?</h2><div class="area-steps"><article><h3>פרטי הנכס</h3><p>כתובת, סוג נכס, גודל משוער ושטחים נוספים שתרצו לכלול בבדיקה.</p></article><article><h3>מועד ומטרה</h3><p>ציינו אם זו דירה חדשה לקראת מסירה או דירה קיימת לפני רכישה ומהו חלון הזמן לביקור.</p></article><article><h3>מסמכים ושאלות</h3><p>הכינו מפרט או תוכניות לדירה חדשה, ומידע על שיפוצים או ליקויים ידועים בנכס קיים.</p></article></div><p>למידע על היקף הבדיקה עברו אל <a href="/services">השירותים</a>; עלויות מוסברות ב<a href="/home-inspection-price">מדריך המחיר</a>.</p><a class="button primary" href="/contact">לבירור זמינות ותיאום</a></section>'''
     schema = {"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":f"{BASE}/{slug}#page","url":f"{BASE}/{slug}","name":title,"inLanguage":"he-IL","about":{"@id":f"{BASE}/#business"}},{"@type":"ItemList","name":"ערי שירות בדק בית","itemListElement":[{"@type":"ListItem","position":i,"name":c[0],"url":f"{BASE}/home-inspection-{c[1]}"} for i,c in enumerate(CITIES,1)]}]}
-    (ROOT / f'{slug}.html').write_text(document(slug,title,description,body,schema,stylesheet_version="20261031-1"),encoding='utf-8')
+    (ROOT / f'{slug}.html').write_text(document(slug,title,description,body,schema),encoding='utf-8')
 
 
 def build_city(index: int, city: tuple[str, ...]) -> None:
