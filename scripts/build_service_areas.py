@@ -36,6 +36,18 @@ CITIES = [
     ("יהוד-מונוסון", "yehud-monosson", "ביהוד-מונוסון", "מה לבדוק לפני ביקור בדירה", "דאגו לאפשר גישה לנכס כולו: חדרים, מרפסת, ארונות שירות ושטחים נוספים שסוכמו לבדיקה. הכינו את מועד העסקה או המסירה ותמונות של ממצאים שמטרידים אתכם, כדי להתאים את הביקור לצורך המדויק."),
 ]
 
+# The first two artwork rows use seven equal columns. The final row was laid
+# out as six custom-width illustrations, so each crop follows its actual
+# horizontal bounds instead of assuming an even grid.
+THIRD_ROW_CROPS = [
+    (0, 315),
+    (330, 320),
+    (655, 330),
+    (1040, 270),
+    (1400, 260),
+    (1780, 392),
+]
+
 
 def e(text: str) -> str:
     return escape(text, quote=True)
@@ -69,11 +81,25 @@ def city_links(cities: list[tuple[str, ...]], *, with_photos: bool = False) -> s
         content = f'<strong>בדק בית {e(locative)}</strong><span>{e(name)}</span><b>למידע על השירות בעיר ←</b>'
         if with_photos:
             position = city_positions[slug]
-            column = position % 7
-            row = position // 7
+            if position < 14:
+                column = position % 7
+                crop_width = 2172 / 7
+                crop_x = column * crop_width
+                crop_y = (position // 7) * (724 / 3)
+                crop_height = 724 / 3
+            else:
+                crop_x, crop_width = THIRD_ROW_CROPS[position - 14]
+                crop_y = 470
+                crop_height = 254
+            view_box = f'{crop_x:.2f} {crop_y:.2f} {crop_width:.2f} {crop_height:.2f}'
+            crop_id = f'crop-{slug}'
             photo = (
-                f'<span class="area-card-photo" role="img" aria-label="איור של {e(name)}" '
-                f'style="--photo-x:{column * 100 / 6:.4f}%;--photo-y:{row * 50}%"></span>'
+                f'<svg class="area-card-photo" viewBox="{view_box}" role="img" '
+                f'aria-label="איור של {e(name)}" preserveAspectRatio="xMidYMid meet" focusable="false">'
+                f'<defs><clipPath id="{crop_id}" clipPathUnits="userSpaceOnUse">'
+                f'<rect x="{crop_x:.2f}" y="{crop_y:.2f}" width="{crop_width:.2f}" height="{crop_height:.2f}"></rect>'
+                f'</clipPath></defs><image href="/public/images/service-area-cities.png" width="2172" height="724" '
+                f'clip-path="url(#{crop_id})"></image></svg>'
             )
             content = f'{photo}<span class="area-card-copy">{content}</span>'
             card_class = 'area-card area-card--illustrated'
@@ -94,7 +120,7 @@ def build_hub() -> None:
 <section class="section area-section"><h2>בחרו עיר</h2><p>העמודים עוסקים בבדיקת דירה חדשה מקבלן או נכס לפני רכישה. אם העיר שלכם אינה מופיעה, אפשר לפנות אלינו ולברר זמינות.</p>{city_links(CITIES, with_photos=True)}</section>
 <section class="section area-section area-guide"><h2>מה להכין לפני תיאום?</h2><div class="area-steps"><article><h3>פרטי הנכס</h3><p>כתובת, סוג נכס, גודל משוער ושטחים נוספים שתרצו לכלול בבדיקה.</p></article><article><h3>מועד ומטרה</h3><p>ציינו אם זו דירה חדשה לקראת מסירה או דירה קיימת לפני רכישה ומהו חלון הזמן לביקור.</p></article><article><h3>מסמכים ושאלות</h3><p>הכינו מפרט או תוכניות לדירה חדשה, ומידע על שיפוצים או ליקויים ידועים בנכס קיים.</p></article></div><p>למידע על היקף הבדיקה עברו אל <a href="/services">השירותים</a>; עלויות מוסברות ב<a href="/home-inspection-price">מדריך המחיר</a>.</p><a class="button primary" href="/contact">לבירור זמינות ותיאום</a></section>'''
     schema = {"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":f"{BASE}/{slug}#page","url":f"{BASE}/{slug}","name":title,"inLanguage":"he-IL","about":{"@id":f"{BASE}/#business"}},{"@type":"ItemList","name":"ערי שירות בדק בית","itemListElement":[{"@type":"ListItem","position":i,"name":c[0],"url":f"{BASE}/home-inspection-{c[1]}"} for i,c in enumerate(CITIES,1)]}]}
-    (ROOT / f'{slug}.html').write_text(document(slug,title,description,body,schema,stylesheet_version="20261031-1"),encoding='utf-8')
+    (ROOT / f'{slug}.html').write_text(document(slug,title,description,body,schema,stylesheet_version="20261101-1"),encoding='utf-8')
 
 
 def build_city(index: int, city: tuple[str, ...]) -> None:

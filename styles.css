@@ -356,7 +356,7 @@
 .area-card b{color:#286697}
 .area-card:hover,.area-card:focus-visible{border-color:#a78755;box-shadow:0 8px 22px #1a315311}
 .area-card--illustrated{padding:0;gap:0;overflow:hidden}
-.area-card--illustrated .area-card-photo{display:block;aspect-ratio:9/7;width:100%;flex:0 0 auto;background-image:url('/public/images/service-area-cities.png');background-repeat:no-repeat;background-size:700% 300%;background-position:var(--photo-x) var(--photo-y);color:transparent;line-height:0}
+.area-card--illustrated .area-card-photo{display:block;aspect-ratio:9/7;width:100%;flex:0 0 auto;overflow:hidden;background:#fffaf5}
 .area-card--illustrated .area-card-copy{display:flex;flex:1;flex-direction:column;gap:12px;padding:22px 25px 25px;color:inherit;line-height:normal}
 .area-card--illustrated .area-card-copy>span{color:var(--muted);line-height:1.6;flex:1}
 .area-guide{background:#f8fbff;max-width:none}
