@@ -314,6 +314,13 @@ def city_links(cities: list[tuple[str, ...]]) -> str:
     ) + '</div>'
 
 
+def faq_markup(items: list[tuple[str, str]]) -> str:
+    return ''.join(
+        f'<details><summary>{e(question)}</summary><p>{e(answer)}</p></details>'
+        for question, answer in items
+    )
+
+
 def build_hub() -> None:
     slug = 'service-areas'
     title = 'אזורי שירות בדק בית | אור בדק בית'
@@ -348,12 +355,27 @@ def build_city(index: int, city: tuple[str, ...]) -> None:
         prepare_heading = f'מה לשלוח לפני תיאום {locative}?'
         prepare_cards = '''<article><h3>מיקום ונכס</h3><p>כתובת, סוג נכס, גודל משוער, קומה ושטחים נוספים כמו מרפסת, חצר או גג.</p></article><article><h3>שלב העסקה</h3><p>מועד מסירה או רכישה רצוי, ומתי אפשר להיכנס לנכס לביקור.</p></article><article><h3>מידע שכבר קיים</h3><p>מפרט ותוכניות, תיקונים קודמים או תמונות של ליקוי שמדאיג אתכם.</p></article>'''
         price_text = 'המחיר תלוי בגודל הנכס, בסוגו ובהיקף הבדיקה. לאחר קבלת הפרטים אפשר למסור הצעה מותאמת.'
+    faq_items = [
+        (
+            f'מתי כדאי להזמין בדק בית {locative}?',
+            'בדירה קיימת מומלץ לתאם את הבדיקה לפני התחייבות סופית, ככל שתנאי העסקה מאפשרים. בדירה חדשה כדאי לקבוע מועד שבו העבודות הסתיימו והנכס כולו נגיש לבדיקה.',
+        ),
+        (
+            f'כמה עולה בדק בית {locative}?',
+            'המחיר נקבע לפי סוג הנכס, הגודל, מספר המפלסים והשטחים שנכללים בבדיקה. לאחר קבלת הפרטים אפשר למסור הצעה שמתאימה לנכס.',
+        ),
+        (
+            'האם אפשר לכלול מרפסת, מחסן או חניה?',
+            'כן, בהתאם להיקף שסוכם ולגישה ביום הביקור. חשוב לציין את השטחים הנוספים כבר בשיחת התיאום כדי להקצות להם זמן.',
+        ),
+    ]
     body = f'''<nav class="area-breadcrumb section" aria-label="פירורי לחם"><a href="/">בית</a><span> / </span><a href="/service-areas">אזורי שירות</a><span> / {e(name)}</span></nav>
 <section class="section service-hero area-hero"><p class="eyebrow">אזור שירות · {e(name)}</p><h1>בדק בית {e(locative)}</h1><p>{e(hero)}</p><a class="button primary" href="/contact">לבדיקת זמינות ותיאום</a></section>
 <section class="section area-section"><h2>{e(focus_title)}</h2><p>{e(focus)}</p><h2>איך הבדיקה מתנהלת?</h2><p>מתאמים את היקף הבדיקה לפי הנכס; בביקור סוקרים באופן שיטתי גמרים, פתחים, סימני רטיבות ומערכות שנגישות לבדיקה. לאחר מכן מתקבל דוח מסודר עם תיעוד הממצאים והערכת עלויות לפי היקף השירות שסוכם. ממצא שמצריך בדיקה נוספת יצוין בהתאם.</p><p>אם זו דירה חדשה, קראו על <a href="/new-apartment-inspection">בדק בית לפני מסירה</a>. אם זו דירה קיימת, ראו את <a href="/badek-home-before-buying">המדריך לבדיקה לפני קנייה</a> ואת <a href="/sample-report">הדוח לדוגמה</a>.</p></section>
 <section class="section area-section area-guide"><h2>{e(prepare_heading)}</h2><div class="area-steps">{prepare_cards}</div><p>{e(price_text)} <a href="/home-inspection-price">למידע על מחיר בדק בית</a>.</p><a class="button primary" href="/contact">לתיאום בדיקה {e(locative)}</a></section>
+<section class="section area-section article-faq"><h2>שאלות נפוצות על בדק בית {e(locative)}</h2>{faq_markup(faq_items)}</section>
 <section class="section area-section"><h2>ערי שירות נוספות</h2>{city_links(related)}<p><a href="/service-areas">לכל אזורי השירות ←</a></p></section>'''
-    schema = {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":f"{BASE}/{slug}#page","url":f"{BASE}/{slug}","name":title,"description":description,"inLanguage":"he-IL","isPartOf":{"@id":f"{BASE}/#website"},"about":{"@id":f"{BASE}/#business"}},{"@type":"Service","@id":f"{BASE}/{slug}#service","name":f"בדק בית {locative}","serviceType":"בדק בית ובדיקת דירה","provider":{"@id":f"{BASE}/#business"},"areaServed":{"@type":"City","name":name,"address":{"@type":"PostalAddress","addressLocality":name,"addressCountry":"IL"}},"url":f"{BASE}/{slug}"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"בית","item":f"{BASE}/"},{"@type":"ListItem","position":2,"name":"אזורי שירות","item":f"{BASE}/service-areas"},{"@type":"ListItem","position":3,"name":name,"item":f"{BASE}/{slug}"}]}]}
+    schema = {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":f"{BASE}/{slug}#page","url":f"{BASE}/{slug}","name":title,"description":description,"inLanguage":"he-IL","isPartOf":{"@id":f"{BASE}/#website"},"about":{"@id":f"{BASE}/#business"}},{"@type":"Service","@id":f"{BASE}/{slug}#service","name":f"בדק בית {locative}","serviceType":"בדק בית ובדיקת דירה","provider":{"@id":f"{BASE}/#business"},"areaServed":{"@type":"City","name":name,"address":{"@type":"PostalAddress","addressLocality":name,"addressCountry":"IL"}},"url":f"{BASE}/{slug}"},{"@type":"FAQPage","@id":f"{BASE}/{slug}#faq","mainEntity":[{"@type":"Question","name":question,"acceptedAnswer":{"@type":"Answer","text":answer}} for question, answer in faq_items]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"בית","item":f"{BASE}/"},{"@type":"ListItem","position":2,"name":"אזורי שירות","item":f"{BASE}/service-areas"},{"@type":"ListItem","position":3,"name":name,"item":f"{BASE}/{slug}"}]}]}
     (ROOT / f'{slug}.html').write_text(document(slug,title,description,body,schema),encoding='utf-8')
 
 
