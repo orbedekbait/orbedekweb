@@ -317,7 +317,7 @@ def document(slug: str, title: str, description: str, body: str, schema: dict) -
 
 def city_links(cities: list[tuple[str, ...]]) -> str:
     return '<div class="area-grid">' + ''.join(
-        f'<a class="area-card" href="/home-inspection-{slug}"><strong>בדק בית {e(locative)}</strong><span>{e(name)}</span><b>למידע על השירות בעיר ←</b></a>'
+        f'<a class="area-card" href="/home-inspection-{slug}"><strong>בדק בית {e(locative)}</strong><span>{e(name)}</span></a>'
         for name, slug, locative, *_ in cities
     ) + '</div>'
 
