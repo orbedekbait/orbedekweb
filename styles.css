@@ -357,7 +357,7 @@
 .area-card:hover,.area-card:focus-visible{border-color:#a78755;box-shadow:0 8px 22px #1a315311}
 .area-guide{background:#f8fbff;max-width:none}
 .area-guide>*{max-width:1200px;margin-left:auto;margin-right:auto}
-@media(max-width:780px){.area-grid,.area-steps{grid-template-columns:1fr}.area-hero{padding-top:54px;padding-bottom:54px}}
+@media(max-width:780px){.area-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.area-grid .area-card{padding:17px 14px;gap:8px}.area-grid .area-card strong{font-size:18px;line-height:1.25}.area-grid .area-card span,.area-grid .area-card b{font-size:14px}.area-steps{grid-template-columns:1fr}.area-hero{padding-top:54px;padding-bottom:54px}}
 .service-hero h1,.about-hero h1,.contact-page-hero h1{max-width:980px;margin:0 auto;font:700 clamp(40px,5vw,68px)/1.08 var(--font-heading);letter-spacing:-.045em}
 .service-hero>p:last-child,.about-lead,.contact-page-hero>p:last-child{max-width:780px;margin:24px auto 0;color:var(--muted);font-size:19px;line-height:1.75}
 .cards .service-card{display:flex;flex-direction:column;min-height:230px;padding:30px 25px;background:#fbfdff;color:var(--ink);text-decoration:none;border:1px solid #d7e6f3;border-radius:5px;transition:transform .2s,box-shadow .2s,border-color .2s}
@@ -625,6 +625,7 @@ html{scroll-padding-top:82px}
   .carousel-track>*{flex-grow:0;flex-shrink:0;scroll-snap-align:center;scroll-snap-stop:always}
   .carousel-track>article,.carousel-track>li{display:grid;grid-template-columns:48px minmax(0,1fr);align-content:center;align-items:start;gap:17px;min-height:220px;padding:25px 22px;text-align:right}
   .why-us .carousel-track>article{align-content:start}
+  .area-preparation-carousel .carousel-track>article{display:flex;align-content:normal;gap:12px;min-height:220px;padding:25px 22px}
   .carousel-track>*>span{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;font-size:17px}
   .why-us .carousel-track>*>span{background:#e7f3fc;color:#3388cc}
   .home-process .carousel-track>*>span{background:#4894cc35;color:#91cef9}

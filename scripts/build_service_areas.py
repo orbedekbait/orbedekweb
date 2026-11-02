@@ -36,6 +36,14 @@ CITIES = [
     ("יהוד-מונוסון", "yehud-monosson", "ביהוד-מונוסון", "מה לבדוק לפני ביקור בדירה", "דאגו לאפשר גישה לנכס כולו: חדרים, מרפסת, ארונות שירות ושטחים נוספים שסוכמו לבדיקה. הכינו את מועד העסקה או המסירה ותמונות של ממצאים שמטרידים אתכם, כדי להתאים את הביקור לצורך המדויק."),
 ]
 
+# Lead with the largest, most commonly searched service cities on the hub.
+PRIORITY_CITIES = [
+    "תל אביב-יפו", "ראשון לציון", "פתח תקווה", "רמת גן", "חולון",
+    "הרצליה", "בת ים", "גבעתיים", "כפר סבא", "רעננה",
+]
+_city_priority = {name: position for position, name in enumerate(PRIORITY_CITIES)}
+CITIES.sort(key=lambda city: (_city_priority.get(city[0], len(PRIORITY_CITIES)), city[0]))
+
 # Copy for the priority cities is intentionally written around the visitor's
 # property and decision stage. It avoids unsupported claims about local defects
 # or previous projects while giving each page a distinct useful purpose.
@@ -302,7 +310,7 @@ def document(slug: str, title: str, description: str, body: str, schema: dict) -
 <html lang="he-IL" dir="rtl"><head><script src="/consent-init.js"></script>
 <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','GTM-MCD7BSML');</script>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="{e(description)}"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><link rel="canonical" href="{url}"><link rel="describedby" href="{BASE}/llms.txt" type="text/plain">
-<meta property="og:type" content="website"><meta property="og:locale" content="he_IL"><meta property="og:site_name" content="אור בדק בית"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/public/images/or-deker-social-share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="/public/images/or-bedek-logo-2026.png"><title>{e(title)}</title><link rel="stylesheet" href="/styles.css?v=20261029-1"><script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script></head>
+<meta property="og:type" content="website"><meta property="og:locale" content="he_IL"><meta property="og:site_name" content="אור בדק בית"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/public/images/or-deker-social-share.jpg"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/png" href="/public/images/or-bedek-logo-2026.png"><title>{e(title)}</title><link rel="stylesheet" href="/styles.css?v=20261102-1"><script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script></head>
 <body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCD7BSML" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>{header()}<main>{body}</main>{footer()}</body></html>
 '''
 
@@ -312,6 +320,13 @@ def city_links(cities: list[tuple[str, ...]]) -> str:
         f'<a class="area-card" href="/home-inspection-{slug}"><strong>בדק בית {e(locative)}</strong><span>{e(name)}</span><b>למידע על השירות בעיר ←</b></a>'
         for name, slug, locative, *_ in cities
     ) + '</div>'
+
+
+def preparation_carousel(cards: str) -> str:
+    return f'''<div class="card-carousel area-preparation-carousel" data-carousel>
+<div class="area-steps carousel-track" data-carousel-track tabindex="0" role="region" aria-label="מה להכין לפני הבדיקה">{cards}</div>
+<div class="carousel-controls" aria-label="ניווט בין שלבי ההכנה"><button class="carousel-button" type="button" data-carousel-prev aria-label="הכרטיסייה הקודמת">→</button><div class="carousel-dots" data-carousel-dots aria-label="בחירת כרטיסייה"></div><button class="carousel-button" type="button" data-carousel-next aria-label="הכרטיסייה הבאה">←</button></div>
+</div>'''
 
 
 def faq_markup(items: list[tuple[str, str]]) -> str:
@@ -372,7 +387,7 @@ def build_city(index: int, city: tuple[str, ...]) -> None:
     body = f'''<nav class="area-breadcrumb section" aria-label="פירורי לחם"><a href="/">בית</a><span> / </span><a href="/service-areas">אזורי שירות</a><span> / {e(name)}</span></nav>
 <section class="section service-hero area-hero"><p class="eyebrow">אזור שירות · {e(name)}</p><h1>בדק בית {e(locative)}</h1><p>{e(hero)}</p><a class="button primary" href="/contact">לבדיקת זמינות ותיאום</a></section>
 <section class="section area-section"><h2>{e(focus_title)}</h2><p>{e(focus)}</p><h2>איך הבדיקה מתנהלת?</h2><p>מתאמים את היקף הבדיקה לפי הנכס; בביקור סוקרים באופן שיטתי גמרים, פתחים, סימני רטיבות ומערכות שנגישות לבדיקה. לאחר מכן מתקבל דוח מסודר עם תיעוד הממצאים והערכת עלויות לפי היקף השירות שסוכם. ממצא שמצריך בדיקה נוספת יצוין בהתאם.</p><p>אם זו דירה חדשה, קראו על <a href="/new-apartment-inspection">בדק בית לפני מסירה</a>. אם זו דירה קיימת, ראו את <a href="/badek-home-before-buying">המדריך לבדיקה לפני קנייה</a> ואת <a href="/sample-report">הדוח לדוגמה</a>.</p></section>
-<section class="section area-section area-guide"><h2>{e(prepare_heading)}</h2><div class="area-steps">{prepare_cards}</div><p>{e(price_text)} <a href="/home-inspection-price">למידע על מחיר בדק בית</a>.</p><a class="button primary" href="/contact">לתיאום בדיקה {e(locative)}</a></section>
+<section class="section area-section area-guide"><h2>{e(prepare_heading)}</h2>{preparation_carousel(prepare_cards)}<p>{e(price_text)} <a href="/home-inspection-price">למידע על מחיר בדק בית</a>.</p><a class="button primary" href="/contact">לתיאום בדיקה {e(locative)}</a></section>
 <section class="section area-section article-faq"><h2>שאלות נפוצות על בדק בית {e(locative)}</h2>{faq_markup(faq_items)}</section>
 <section class="section area-section"><h2>ערי שירות נוספות</h2>{city_links(related)}<p><a href="/service-areas">לכל אזורי השירות ←</a></p></section>'''
     schema = {"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":f"{BASE}/{slug}#page","url":f"{BASE}/{slug}","name":title,"description":description,"inLanguage":"he-IL","isPartOf":{"@id":f"{BASE}/#website"},"about":{"@id":f"{BASE}/#business"}},{"@type":"Service","@id":f"{BASE}/{slug}#service","name":f"בדק בית {locative}","serviceType":"בדק בית ובדיקת דירה","provider":{"@id":f"{BASE}/#business"},"areaServed":{"@type":"City","name":name,"address":{"@type":"PostalAddress","addressLocality":name,"addressCountry":"IL"}},"url":f"{BASE}/{slug}"},{"@type":"FAQPage","@id":f"{BASE}/{slug}#faq","mainEntity":[{"@type":"Question","name":question,"acceptedAnswer":{"@type":"Answer","text":answer}} for question, answer in faq_items]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"בית","item":f"{BASE}/"},{"@type":"ListItem","position":2,"name":"אזורי שירות","item":f"{BASE}/service-areas"},{"@type":"ListItem","position":3,"name":name,"item":f"{BASE}/{slug}"}]}]}
