@@ -4,7 +4,7 @@
 
 - 43 URL requests inspected: 41 sitemap URLs, one redirecting legacy URL, and the `/404` page. All 41 sitemap URLs returned HTTP 200 and were indexable.
 - 41 canonical indexable title tags reviewed; 0 missing, empty, multiple, or exact duplicates. All 41 live titles were between 25 and 60 Unicode characters.
-- 3 titles changed in local source; 38 retained. Local HTML verification passed for all 41 pages. Production still serves the previous titles until deployment.
+- 3 titles changed in local source; 38 retained. Local and production HTML verification passed for all 41 pages after deployment.
 - Pixel widths were not measured; character length is a guide rather than a display guarantee.
 
 ## Complete before/after inventory
@@ -79,11 +79,10 @@
 - Modified only the `<title>` elements in `index.html`, `contact.html`, and `faq.html`. No templates or CMS fields generate these titles; the site is static HTML.
 - Crawled all 41 production sitemap URLs from raw HTML before editing. All returned HTTP 200 with the titles in the table.
 - Crawled all 41 clean URLs on the local development server after editing. Each returned HTTP 200, exactly one expected title, no duplicate titles, and the same canonical and robots values as production. Hebrew decoded correctly as UTF-8.
-- `python3 scripts/seo_audit.py` passed. Production verification of the new titles remains pending deployment.
+- `python3 scripts/seo_audit.py` passed. After deployment, all 41 production URLs returned HTTP 200, exactly one expected title each, no duplicate titles, and unchanged canonical and robots values.
 
 ## Outstanding recommendations
 
-- Deploy the local title changes, then recrawl production HTML to confirm the three new tags are live.
 - If social previews and structured data should use the new wording, update the three `og:title` values and the contact page’s structured-data `name` in a separately approved metadata change.
 - Search Console query and CTR data were unavailable, so title choices were based on source content and intent, not performance data.
 
