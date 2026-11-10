@@ -65,7 +65,7 @@
 - Some titles differ textually from the H1, including the About and sample-report pages, but remain relevant to their content. No title change was justified on that basis alone.
 - All live sitemap pages exposed one meta description, canonical URL, robots directive and H1. The local post-change crawl confirmed those fields were unchanged.
 - Direct navigation to `/404` yields HTTP 200 and is `noindex`; a separate, genuinely unknown path returned HTTP 404. No missing-page handling change is recommended.
-- The three changed pages still carry their previous `og:title` values. The contact page also retains its previous structured-data `name`. These fields were left unchanged because the requested implementation is limited to `<title>` tags.
+- A follow-up metadata alignment updated `og:title` on the three changed pages, `twitter:title` on the homepage, and the contact page’s `ContactPage.name` to match the deployed titles. No other metadata was changed.
 
 ## Search-intent overlap
 
@@ -76,14 +76,13 @@
 
 ## Implementation and verification
 
-- Modified only the `<title>` elements in `index.html`, `contact.html`, and `faq.html`. No templates or CMS fields generate these titles; the site is static HTML.
+- The initial change modified only the `<title>` elements in `index.html`, `contact.html`, and `faq.html`. A subsequent authorized change aligned three `og:title` values, the homepage `twitter:title`, and the contact page `ContactPage.name` in those same files. No templates or CMS fields generate these titles; the site is static HTML.
 - Crawled all 41 production sitemap URLs from raw HTML before editing. All returned HTTP 200 with the titles in the table.
 - Crawled all 41 clean URLs on the local development server after editing. Each returned HTTP 200, exactly one expected title, no duplicate titles, and the same canonical and robots values as production. Hebrew decoded correctly as UTF-8.
 - `python3 scripts/seo_audit.py` passed. After deployment, all 41 production URLs returned HTTP 200, exactly one expected title each, no duplicate titles, and unchanged canonical and robots values.
 
 ## Outstanding recommendations
 
-- If social previews and structured data should use the new wording, update the three `og:title` values and the contact page’s structured-data `name` in a separately approved metadata change.
 - Search Console query and CTR data were unavailable, so title choices were based on source content and intent, not performance data.
 
 The companion CSV contains all 43 URL requests and the full per-URL status, description, canonical, indexability, H1, topic, title counts, action and verification fields.
